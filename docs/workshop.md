@@ -146,7 +146,7 @@ function findMax(arr) {
 
 ---
 
-# Level 2: Use Copilot Chat to improve code quality
+# 실습 2: Copilot Chat을 이용하여 코드 품질 개선
 
 ## 📝 학습 목표
 - GitHub Copilot Chat 기능 활용법 학습
@@ -192,7 +192,7 @@ function validateEmail(email) {
 
 ---
 
-# Level 3: Copilot Edit & Agents Mode
+# 실습 3: Copilot Edit & Agents 모드
 
 ## 📝 학습 목표
 - GitHub Copilot Edits 기능 활용법 학습
@@ -205,6 +205,7 @@ function validateEmail(email) {
 - **다중 파일 동시 편집**: 여러 파일을 한 번에 수정
 - **프로젝트 범위 리팩토링**: 전체 프로젝트 구조 개선
 - **일관된 스타일 적용**: 코딩 컨벤션 자동 적용
+  ![Image text](assets/edit_mode.png)
 
 ```
 // Copilot Edits 명령 예시:
@@ -247,7 +248,7 @@ GitHub Copilot의 전문화된 에이전트들을 활용하여 특정 작업을 
 
 ---
 
-# Level 4: Copilot Advanced
+# 실습 4: Copilot 고급 기능
 
 ## 📝 학습 목표
 - GitHub Copilot의 고급 기능 및 최적화 방법 학습
@@ -338,7 +339,7 @@ jobs:
 ---
 
 
-# Lab: Copilot 코딩 에이전트를 개발팀원으로 활용
+# 실습 5: Copilot 코딩 에이전트를 개발팀원으로 활용
 
 GitHub Copilot을 활용한 단계별 실습을 통해 AI 코딩 파트너의 진정한 가치를 경험해보세요.
 
