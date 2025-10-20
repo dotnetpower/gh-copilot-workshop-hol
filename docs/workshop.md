@@ -85,13 +85,6 @@ Content for first section
 
 ---
 
-# Second section
-
-Content for second section
-
----
-
-
 # 실습 1: Code Completion
 
 ## 📝 학습 목표
