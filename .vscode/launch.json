@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Docusaurus: Start",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "cd docusaurus-site && npm start",
+            "cwd": "${workspaceFolder}",
+            "serverReadyAction": {
+                "pattern": "running at: (https?://[0-9a-z.:]+)",
+                "uriFormat": "%s",
+                "action": "openExternally"
+            }
+        },
+        {
+            "name": "Docusaurus: Build",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "cd docusaurus-site && npm run build",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

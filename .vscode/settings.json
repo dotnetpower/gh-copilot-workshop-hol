@@ -1,0 +1,19 @@
+{
+    "files.associations": {
+        "*.md": "markdown"
+    },
+    "files.exclude": {
+        "_site": true,
+        ".sass-cache": true,
+        ".jekyll-cache": true,
+        ".jekyll-metadata": true
+    },
+    "search.exclude": {
+        "_site": true,
+        ".sass-cache": true,
+        ".jekyll-cache": true,
+        "Gemfile.lock": true
+    },
+    "markdown.preview.breaks": true,
+    "markdown.preview.linkify": true
+}
