@@ -410,37 +410,45 @@ async function displayUserOrders(userId: string) {
 
 ## 레거시 코드 현대화
 
-### Java → Kotlin 변환
+### C# 레거시 → 현대 C# 변환
 
-```java
-// Before: Java 레거시 코드
-public class UserService {
+```csharp
+// Before: 레거시 C# 코드
+public class UserService
+{
     private UserRepository userRepository;
     
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository)
+    {
         this.userRepository = userRepository;
     }
     
-    public User findUserById(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("ID cannot be null");
+    public User FindUserById(long? id)
+    {
+        if (id == null)
+        {
+            throw new ArgumentException("ID cannot be null");
         }
         
-        User user = userRepository.findById(id);
-        if (user == null) {
+        User user = userRepository.FindById(id.Value);
+        if (user == null)
+        {
             throw new UserNotFoundException("User not found: " + id);
         }
         
         return user;
     }
     
-    public List<User> findActiveUsers() {
-        List<User> allUsers = userRepository.findAll();
-        List<User> activeUsers = new ArrayList<>();
+    public List<User> FindActiveUsers()
+    {
+        List<User> allUsers = userRepository.FindAll();
+        List<User> activeUsers = new List<User>();
         
-        for (User user : allUsers) {
-            if (user.isActive()) {
-                activeUsers.add(user);
+        foreach (User user in allUsers)
+        {
+            if (user.IsActive)
+            {
+                activeUsers.Add(user);
             }
         }
         
@@ -448,35 +456,46 @@ public class UserService {
     }
 }
 
-// Copilot Chat: "이 Java 코드를 Kotlin으로 변환하고 
-//                현대적인 Kotlin 관례를 따르도록 개선해줘"
+// Copilot Chat: "이 C# 코드를 현대적인 C# 12 스타일로 변환하고 
+//                nullable 참조 타입과 LINQ를 활용하도록 개선해줘"
 
-// After: Kotlin 현대화
-class UserService(private val userRepository: UserRepository) {
-    
-    fun findUserById(id: Long?): User {
-        requireNotNull(id) { "ID cannot be null" }
+// After: 현대 C# 12 스타일
+// 필요한 using: System.Runtime.CompilerServices (EnumeratorCancellation용)
+public class UserService(IUserRepository userRepository)
+{
+    public User FindUserById(long? id)
+    {
+        ArgumentNullException.ThrowIfNull(id);
         
-        return userRepository.findById(id)
-            ?: throw UserNotFoundException("User not found: $id")
+        return userRepository.FindById(id.Value)
+            ?? throw new UserNotFoundException($"User not found: {id}");
     }
     
-    fun findActiveUsers(): List<User> =
-        userRepository.findAll()
-            .filter { it.isActive }
+    public IEnumerable<User> FindActiveUsers() =>
+        userRepository.FindAll()
+            .Where(user => user.IsActive);
     
-    // 추가 개선: suspend 함수로 비동기 처리
-    suspend fun findUserByIdAsync(id: Long?): User {
-        requireNotNull(id) { "ID cannot be null" }
+    // 추가 개선: 비동기 처리
+    public async Task<User> FindUserByIdAsync(long? id, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(id);
         
-        return userRepository.findByIdAsync(id)
-            ?: throw UserNotFoundException("User not found: $id")
+        return await userRepository.FindByIdAsync(id.Value, cancellationToken)
+            ?? throw new UserNotFoundException($"User not found: {id}");
     }
     
-    // Flow를 사용한 반응형 스트림
-    fun observeActiveUsers(): Flow<List<User>> =
-        userRepository.observeAll()
-            .map { users -> users.filter { it.isActive } }
+    // IAsyncEnumerable을 사용한 스트리밍
+    public async IAsyncEnumerable<User> GetActiveUsersAsync(
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        await foreach (var user in userRepository.GetAllAsync(cancellationToken))
+        {
+            if (user.IsActive)
+            {
+                yield return user;
+            }
+        }
+    }
 }
 ```
 

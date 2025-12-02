@@ -241,3 +241,88 @@ article.col:hover {
   background-color: rgba(124, 58, 237, 0.15);
 }
 
+/* Mobile Navigation Fix */
+@media screen and (max-width: 996px) {
+  /* Hide desktop navbar link items on mobile - they should be in sidebar menu */
+  .theme-layout-navbar-left > .navbar__item.navbar__link,
+  .navbar__items:not(.navbar__items--right) > .navbar__item.navbar__link {
+    display: none !important;
+  }
+  
+  /* Ensure hamburger button is visible and properly styled */
+  .navbar__toggle {
+    display: flex !important;
+    margin-right: 0.5rem;
+  }
+  
+  /* Fix navbar brand title truncation on mobile */
+  .navbar__title {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Fix navbar inner layout */
+  .navbar__inner {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  
+  /* Ensure left side doesn't grow too much */
+  .theme-layout-navbar-left,
+  .navbar__items:not(.navbar__items--right) {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+  
+  /* Ensure right navbar items are properly spaced and don't wrap */
+  .theme-layout-navbar-right,
+  .navbar__items--right {
+    flex: 0 0 auto;
+    gap: 0.25rem;
+  }
+  
+  /* Hide GitHub link text on very small screens, show icon only */
+  .navbar__items--right .navbar__link {
+    font-size: 0.85rem;
+  }
+  
+  /* Fix mobile sidebar menu */
+  .navbar-sidebar {
+    background-color: var(--ifm-background-color);
+  }
+  
+  .navbar-sidebar__items {
+    padding: 1rem;
+  }
+  
+  .navbar-sidebar .menu__link {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  /* Dark mode support for mobile sidebar */
+  [data-theme='dark'] .navbar-sidebar {
+    background-color: var(--ifm-background-color);
+  }
+}
+
+/* Extra small screens */
+@media screen and (max-width: 576px) {
+  .navbar__title {
+    max-width: 120px;
+    font-size: 0.85rem;
+  }
+  
+  .navbar__logo img {
+    height: 1.5rem;
+  }
+  
+  /* Hide external link icon on very small screens - using attribute selector for stability */
+  .navbar__items--right a[target="_blank"] svg {
+    display: none;
+  }
+}
+
