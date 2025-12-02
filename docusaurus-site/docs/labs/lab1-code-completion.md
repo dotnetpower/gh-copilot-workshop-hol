@@ -1,13 +1,16 @@
 ---
 sidebar_position: 10
+title: 실습 1 - Code Completion
+description: GitHub Copilot의 기본 코드 자동완성 기능과 인라인 제안 활용 실습
 ---
 
 # 실습 1: Code Completion
 
-## 📝 학습 목표
+:::tip 📝 학습 목표
 - GitHub Copilot의 기본 코드 자동완성 기능 익히기
 - 인라인 제안(Inline Suggestions) 활용법 학습
 - 키보드 단축키를 통한 효율적인 코딩 방법 습득
+:::
 
 ## 🛠️ 실습 내용
 
@@ -59,7 +62,8 @@ function findMax(arr) {
 }
 ```
 
-## ✅ 실습 과제
+:::note ✅ 실습 과제
 1. 간단한 계산기 함수 작성 (덧셈, 뺄셈, 곱셈, 나눗셈)
 2. 배열 정렬 함수 구현
 3. 문자열 처리 유틸리티 함수 작성
+:::

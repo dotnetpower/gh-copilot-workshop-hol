@@ -1,13 +1,16 @@
 ---
 sidebar_position: 11
+title: 실습 2 - Copilot Chat으로 코드 품질 개선
+description: GitHub Copilot Chat을 활용한 코드 리뷰, 테스트 생성, 문서화 자동화 실습
 ---
 
 # 실습 2: Copilot Chat을 이용하여 코드 품질 개선
 
-## 📝 학습 목표
-- GitHub Copilot Chat 기능 활용법 학습
+:::tip 📝 학습 목표
+- GitHub Copilot의 Ask, Edit, Agent 모드 활용법 학습
 - 코드 리뷰 및 개선 방법 습득
 - 테스트 코드 생성 및 문서화 자동화
+:::
 
 ## 🛠️ 실습 내용
 
@@ -40,8 +43,9 @@ function validateEmail(email) {
 - README 파일 작성 도움
 - API 문서 생성 지원
 
-## ✅ 실습 과제
+:::note ✅ 실습 과제
 1. 기존 코드의 성능 개선안 요청하기
 2. 단위 테스트 코드 자동 생성하기
 3. 함수 문서화(JSDoc/docstring) 자동 생성하기
 4. 코드 리뷰 의견 받기
+:::

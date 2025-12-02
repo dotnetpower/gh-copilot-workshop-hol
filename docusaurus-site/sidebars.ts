@@ -35,7 +35,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: '💡 Copilot 활용하기',
       items: [
-        'steps/chat-features',
+        'steps/copilot-modes',
         'steps/impact',
       ],
     },
@@ -56,12 +56,38 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: '⚙️ 엔지니어링 프랙티스',
+      items: [
+        'steps/copilot-engineering-practices',
+        'steps/custom-configuration',
+      ],
+    },
+    {
+      type: 'category',
+      label: '🚀 Copilot Spaces & 협업',
+      items: [
+        'steps/copilot-spaces',
+        'steps/vibe-coding',
+      ],
+    },
+    {
+      type: 'category',
+      label: '🔄 리팩토링 & 자동화',
+      items: [
+        'steps/code-refactoring-deep',
+        'steps/cicd-automation',
+        'steps/coding-agents',
+      ],
+    },
+    {
+      type: 'category',
       label: '🧪 실습',
       items: [
         'labs/lab1-code-completion',
         'labs/lab2-chat-quality',
         'labs/lab3-edit-agents',
         'labs/lab4-advanced',
+        'labs/lab5-docusaurus-blog',
       ],
     },
   ],

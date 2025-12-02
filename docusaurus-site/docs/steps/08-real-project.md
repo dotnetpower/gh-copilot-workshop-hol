@@ -1,5 +1,7 @@
 ---
 sidebar_position: 8
+title: 실전 프로젝트
+description: GitHub Copilot을 활용하여 Todo 애플리케이션을 처음부터 만들어보는 실습
 ---
 
 # 실전 프로젝트

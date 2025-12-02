@@ -4,8 +4,36 @@
  * work well for content-centric websites.
  */
 
+@charset "UTF-8";
+
+/* Import Noto Sans Korean font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+/* Apply NotoSans font to all elements */
+html:lang(en-us) a,
+html:lang(en-us) body,
+html:lang(en-us) button,
+html:lang(en-us) div,
+html:lang(en-us) html,
+html:lang(en-us) input,
+html:lang(en-us) select,
+html:lang(en-us) span,
+html:lang(en-us) textarea,
+html:lang(ko-kr) a,
+html:lang(ko-kr) body,
+html:lang(ko-kr) button,
+html:lang(ko-kr) div,
+html:lang(ko-kr) html,
+html:lang(ko-kr) input,
+html:lang(ko-kr) select,
+html:lang(ko-kr) span,
+html:lang(ko-kr) textarea {
+    font-family: 'NotoSans', 'Noto Sans KR', sans-serif;
+}
+
 /* You can override the default Infima variables here. */
 :root {
+
   --ifm-color-primary: #0969da;
   --ifm-color-primary-dark: #0860c7;
   --ifm-color-primary-darker: #0757bc;
@@ -27,4 +55,167 @@
   --ifm-color-primary-lighter: #89bfff;
   --ifm-color-primary-lightest: #b7d9ff;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* VS Code-style code blocks */
+div[class*='codeBlockContainer'] {
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin: 1rem 0;
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+[data-theme='dark'] div[class*='codeBlockContainer'] {
+  border-color: #3c3c3c;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Code block title bar (like VS Code tab) */
+div[class*='codeBlockTitle'] {
+  background: #f3f3f3;
+  border-bottom: 1px solid #e0e0e0;
+  color: #383838;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+[data-theme='dark'] div[class*='codeBlockTitle'] {
+  background: #252526;
+  border-bottom: 1px solid #3c3c3c;
+  color: #cccccc;
+}
+
+/* Add file icon before title */
+div[class*='codeBlockTitle']::before {
+  content: '📄';
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+/* Code block content */
+div[class*='codeBlockContent'] {
+  background: #f5f5f5;
+}
+
+[data-theme='dark'] div[class*='codeBlockContent'] {
+  background: #1e1e1e;
+}
+
+/* Pre and code styling */
+div[class*='codeBlockContainer'] pre {
+  margin: 0;
+  border-radius: 0;
+  background: transparent !important;
+  padding: 1rem;
+}
+
+div[class*='codeBlockContainer'] code {
+  background: transparent;
+  border-radius: 0;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Line numbers */
+div[class*='codeBlockContainer'] code .token-line {
+  padding-left: 4em;
+  position: relative;
+}
+
+div[class*='codeBlockContainer'] code .token-line::before {
+  content: counter(line-number);
+  counter-increment: line-number;
+  position: absolute;
+  left: 0.5em;
+  top: 0;
+  width: 2.5em;
+  padding-right: 1em;
+  text-align: right;
+  color: #858585;
+  font-size: 13px;
+  user-select: none;
+  border-right: none;
+}
+
+div[class*='codeBlockContainer'] code {
+  counter-reset: line-number;
+}
+
+[data-theme='dark'] div[class*='codeBlockContainer'] code .token-line::before {
+  color: #858585;
+  border-right: none;
+}
+
+/* Copy button styling (VS Code style) */
+button[class*='copyButton'] {
+  background: rgba(128, 128, 128, 0.1);
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 4px 8px;
+  font-size: 11px;
+  transition: all 0.2s ease;
+}
+
+button[class*='copyButton']:hover {
+  background: rgba(128, 128, 128, 0.2);
+  border-color: rgba(128, 128, 128, 0.3);
+}
+
+[data-theme='dark'] button[class*='copyButton'] {
+  background: rgba(255, 255, 255, 0.05);
+  color: #cccccc;
+}
+
+[data-theme='dark'] button[class*='copyButton']:hover {
+  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Adjust highlighted line with line numbers */
+.theme-code-block-highlighted-line {
+  background-color: rgba(200, 200, 200, 0.2);
+  display: block;
+  margin: 0 -1rem 0 -4em;
+  padding: 0 1rem 0 4em;
+}
+
+[data-theme='dark'] .theme-code-block-highlighted-line {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Scrollbar styling for code blocks */
+div[class*='codeBlockContainer'] pre::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+
+div[class*='codeBlockContainer'] pre::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+div[class*='codeBlockContainer'] pre::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+[data-theme='dark'] div[class*='codeBlockContainer'] pre::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='dark'] div[class*='codeBlockContainer'] pre::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+div[class*='codeBlockContainer'] pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] div[class*='codeBlockContainer'] pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }

@@ -1,5 +1,7 @@
 ---
 sidebar_position: 1
+title: GitHub Copilot Workshop
+description: GitHub Copilot을 활용한 실습 워크숍 소개 및 학습 목표, 전제 조건 안내
 ---
 
 # GitHub Copilot Workshop
@@ -34,7 +36,7 @@ GitHub Copilot을 활용한 실습 워크숍에 오신 것을 환영합니다!
 - Copilot의 기본 활용 방법과 제한사항
 
 ### 💡 Copilot 활용하기
-- Chat 기능과 개발 생산성 향상
+- Ask, Edit, Agent, Plan 모드 활용
 
 ### 🔧 고급 기능 및 실전
 - 코드 리팩토링, 테스트 생성, 실전 프로젝트

@@ -1,5 +1,7 @@
 ---
 sidebar_position: 3
+title: 기본 사용법
+description: GitHub Copilot의 코드 자동완성과 주석 기반 코드 생성 방법을 학습합니다
 ---
 
 # 기본 사용법
@@ -20,7 +22,7 @@ GitHub Copilot은 코드를 작성하는 동안 실시간으로 제안을 제공
 
 ### 예제
 
-```javascript
+```javascript title="기본 함수 생성 예시"
 // 두 숫자를 더하는 함수
 function add(a, b) {
     return a + b;

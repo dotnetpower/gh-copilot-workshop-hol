@@ -1,5 +1,7 @@
 ---
 sidebar_position: 4
+title: 제한사항과 주의사항
+description: GitHub Copilot 사용 시 알아야 할 제한사항과 보안, 품질 관리 베스트 프랙티스
 ---
 
 # 제한사항

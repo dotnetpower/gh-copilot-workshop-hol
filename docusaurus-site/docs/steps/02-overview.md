@@ -1,5 +1,7 @@
 ---
 sidebar_position: 2
+title: GitHub Copilot 개요
+description: GitHub Copilot의 주요 기능과 특징, 실습 환경 구성 방법을 소개합니다
 ---
 
 # 개요

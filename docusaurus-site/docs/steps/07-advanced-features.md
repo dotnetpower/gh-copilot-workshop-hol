@@ -1,5 +1,7 @@
 ---
 sidebar_position: 7
+title: 고급 기능
+description: 코드 리팩토링, 테스트 생성, 문서화 등 Copilot의 고급 기능 활용법
 ---
 
 # 고급 기능

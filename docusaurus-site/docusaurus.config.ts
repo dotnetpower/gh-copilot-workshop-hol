@@ -103,10 +103,38 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} GitHub Copilot Workshop. Built with Docusaurus.`,
     },
     prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      theme: prismThemes.vsLight,
+      darkTheme: prismThemes.vsDark,
+      additionalLanguages: ['bash', 'python', 'java', 'csharp', 'typescript', 'javascript', 'json'],
+      magicComments: [
+        {
+          className: 'theme-code-block-highlighted-line',
+          line: 'highlight-next-line',
+          block: {start: 'highlight-start', end: 'highlight-end'},
+        },
+        {
+          className: 'code-block-error-line',
+          line: 'This will error',
+        },
+      ],
+    },
+    docs: {
+      sidebar: {
+        hideable: true,
+      },
     },
   } satisfies Preset.ThemeConfig,
+  
+  markdown: {
+    format: 'mdx',
+    mermaid: true,
+    parseFrontMatter: async (params) => {
+      const result = await params.defaultParseFrontMatter(params);
+      return result;
+    },
+  },
+  
+  plugins: [],
 };
 
 export default config;
