@@ -11,18 +11,32 @@ import styles from './index.module.css';
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
-        </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro">
-            시작하기 🚀
-          </Link>
+    <header className={clsx('hero', styles.heroBanner)}>
+      <div className={styles.heroBackground}></div>
+      <div className="container" style={{position: 'relative', zIndex: 1}}>
+        <div className={styles.heroContent}>
+          <span className={styles.heroEmoji}>🤖</span>
+          <Heading as="h1" className="hero__title">
+            {siteConfig.title}
+          </Heading>
+          <p className={clsx('hero__subtitle', styles.heroSubtitle)}>
+            {siteConfig.tagline}
+          </p>
+          <p className={styles.heroDescription}>
+            AI 페어 프로그래밍의 새로운 시대, GitHub Copilot과 함께 시작하세요
+          </p>
+          <div className={styles.buttons}>
+            <Link
+              className="button button--primary button--lg"
+              to="/docs/intro">
+              워크샵 시작하기 🚀
+            </Link>
+            <Link
+              className="button button--secondary button--lg margin-left--md"
+              to="/docs/labs/lab1-code-completion">
+              실습 바로가기 💻
+            </Link>
+          </div>
         </div>
       </div>
     </header>
