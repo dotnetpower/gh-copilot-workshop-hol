@@ -21,6 +21,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'steps/introduction',
         'steps/overview',
+        'steps/ai-models',
       ],
     },
     {

@@ -64,6 +64,7 @@ const config: Config = {
         alt: 'GitHub Copilot Logo',
         src: 'img/logo.svg',
       },
+      // hideOnScroll: false,
       items: [
         {
           type: 'docSidebar',
@@ -105,6 +106,8 @@ const config: Config = {
     prism: {
       theme: prismThemes.vsLight,
       darkTheme: prismThemes.vsDark,
+      // theme: prismThemes.github,
+      // darkTheme: prismThemes.dracula,
       additionalLanguages: ['bash', 'python', 'java', 'csharp', 'typescript', 'javascript', 'json'],
       magicComments: [
         {
@@ -118,11 +121,11 @@ const config: Config = {
         },
       ],
     },
-    docs: {
-      sidebar: {
-        hideable: true,
-      },
-    },
+    // docs: {
+    //   sidebar: {
+    //     hideable: true,
+    //   },
+    // },
   } satisfies Preset.ThemeConfig,
   
   markdown: {

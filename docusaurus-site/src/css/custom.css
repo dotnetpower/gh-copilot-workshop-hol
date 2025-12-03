@@ -43,6 +43,8 @@ html:lang(ko-kr) textarea {
   --ifm-color-primary-lightest: #4d94f0;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-code-background: #f6f8fa;
+  
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -56,273 +58,26 @@ html:lang(ko-kr) textarea {
   --ifm-color-primary-lightest: #b7d9ff;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
-div[class*='codeBlockContent'] {
-  background: #f5f5f5;
+
+/* Light theme code block background */
+[data-theme='light'] .prism-code {
+  background-color: #f6f8fa !important;
+  border: 1px solid #d0d7de;
+  border-radius: 0 !important;
 }
 
-[data-theme='dark'] div[class*='codeBlockContent'] {
-  background: #1e1e1e;
+[data-theme='light'] pre[class*='language-'] {
+  background-color: #f6f8fa !important;
+  border: 1px solid #d0d7de;
+  border-radius: 0 !important;
 }
 
-/* Pre and code styling */
-div[class*='codeBlockContainer'] pre {
-  margin: 0;
-  border-radius: 0;
-  background: transparent !important;
-  padding: 1rem;
+/* Light theme code block header styling */
+[data-theme='light'] div[class*='codeBlockTitle'] {
+  background-color: #ffffff;
+  border: 1px solid #d0d7de;
+  border-bottom: none;
+  border-radius: 0 !important;
+  color: #24292f;
+  font-weight: 500;
 }
-
-div[class*='codeBlockContainer'] code {
-  background: transparent;
-  border-radius: 0;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* Line numbers */
-div[class*='codeBlockContainer'] code .token-line {
-  padding-left: 4em;
-  position: relative;
-}
-
-div[class*='codeBlockContainer'] code .token-line::before {
-  content: counter(line-number);
-  counter-increment: line-number;
-  position: absolute;
-  left: 0.5em;
-  top: 0;
-  width: 2.5em;
-  padding-right: 1em;
-  text-align: right;
-  color: #858585;
-  font-size: 13px;
-  user-select: none;
-  border-right: none;
-}
-
-div[class*='codeBlockContainer'] code {
-  counter-reset: line-number;
-}
-
-[data-theme='dark'] div[class*='codeBlockContainer'] code .token-line::before {
-  color: #858585;
-  border-right: none;
-}
-
-/* Copy button styling (VS Code style) */
-button[class*='copyButton'] {
-  background: rgba(128, 128, 128, 0.1);
-  border: 1px solid transparent;
-  border-radius: 3px;
-  padding: 4px 8px;
-  font-size: 11px;
-  transition: all 0.2s ease;
-}
-
-button[class*='copyButton']:hover {
-  background: rgba(128, 128, 128, 0.2);
-  border-color: rgba(128, 128, 128, 0.3);
-}
-
-[data-theme='dark'] button[class*='copyButton'] {
-  background: rgba(255, 255, 255, 0.05);
-  color: #cccccc;
-}
-
-[data-theme='dark'] button[class*='copyButton']:hover {
-  background: rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Adjust highlighted line with line numbers */
-.theme-code-block-highlighted-line {
-  background-color: rgba(200, 200, 200, 0.2);
-  display: block;
-  margin: 0 -1rem 0 -4em;
-  padding: 0 1rem 0 4em;
-}
-
-[data-theme='dark'] .theme-code-block-highlighted-line {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Scrollbar styling for code blocks */
-div[class*='codeBlockContainer'] pre::-webkit-scrollbar {
-  height: 10px;
-  width: 10px;
-}
-
-div[class*='codeBlockContainer'] pre::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-div[class*='codeBlockContainer'] pre::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-}
-
-[data-theme='dark'] div[class*='codeBlockContainer'] pre::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-[data-theme='dark'] div[class*='codeBlockContainer'] pre::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-div[class*='codeBlockContainer'] pre::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
-}
-
-[data-theme='dark'] div[class*='codeBlockContainer'] pre::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Homepage hero gradient overlay */
-.hero {
-  background: linear-gradient(135deg, #0d1117 0%, #1a1f35 50%, #2d1b4e 100%);
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Card hover effects */
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(124, 58, 237, 0.15);
-}
-
-/* Feature cards enhancement */
-article.col {
-  transition: transform 0.3s ease;
-}
-
-article.col:hover {
-  transform: translateY(-5px);
-}
-
-/* Navbar enhancement */
-.navbar {
-  backdrop-filter: blur(10px);
-  background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme='dark'] .navbar {
-  background-color: rgba(13, 17, 23, 0.95);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* Button animations */
-.button {
-  transition: all 0.3s ease;
-}
-
-.button:hover {
-  transform: translateY(-2px);
-}
-
-/* Sidebar enhancements */
-.menu__link {
-  transition: all 0.2s ease;
-}
-
-.menu__link:hover {
-  background-color: rgba(124, 58, 237, 0.1);
-}
-
-[data-theme='dark'] .menu__link:hover {
-  background-color: rgba(124, 58, 237, 0.15);
-}
-
-/* Mobile Navigation Fix */
-@media screen and (max-width: 996px) {
-  /* Hide desktop navbar link items on mobile - they should be in sidebar menu */
-  .theme-layout-navbar-left > .navbar__item.navbar__link,
-  .navbar__items:not(.navbar__items--right) > .navbar__item.navbar__link {
-    display: none !important;
-  }
-  
-  /* Ensure hamburger button is visible and properly styled */
-  .navbar__toggle {
-    display: flex !important;
-    margin-right: 0.5rem;
-  }
-  
-  /* Fix navbar brand title truncation on mobile */
-  .navbar__title {
-    max-width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  /* Fix navbar inner layout */
-  .navbar__inner {
-    flex-wrap: nowrap;
-    justify-content: space-between;
-  }
-  
-  /* Ensure left side doesn't grow too much */
-  .theme-layout-navbar-left,
-  .navbar__items:not(.navbar__items--right) {
-    flex: 0 1 auto;
-    min-width: 0;
-  }
-  
-  /* Ensure right navbar items are properly spaced and don't wrap */
-  .theme-layout-navbar-right,
-  .navbar__items--right {
-    flex: 0 0 auto;
-    gap: 0.25rem;
-  }
-  
-  /* Hide GitHub link text on very small screens, show icon only */
-  .navbar__items--right .navbar__link {
-    font-size: 0.85rem;
-  }
-  
-  /* Fix mobile sidebar menu */
-  .navbar-sidebar {
-    background-color: var(--ifm-background-color);
-  }
-  
-  .navbar-sidebar__items {
-    padding: 1rem;
-  }
-  
-  .navbar-sidebar .menu__link {
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 0.25rem;
-  }
-  
-  /* Dark mode support for mobile sidebar */
-  [data-theme='dark'] .navbar-sidebar {
-    background-color: var(--ifm-background-color);
-  }
-}
-
-/* Extra small screens */
-@media screen and (max-width: 576px) {
-  .navbar__title {
-    max-width: 120px;
-    font-size: 0.85rem;
-  }
-  
-  .navbar__logo img {
-    height: 1.5rem;
-  }
-  
-  /* Hide external link icon on very small screens - using attribute selector for stability */
-  .navbar__items--right a[target="_blank"] svg {
-    display: none;
-  }
-}
-

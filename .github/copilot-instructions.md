@@ -22,6 +22,7 @@ applyTo: '**'
 - 환경 변수 또는 보안 관리 서비스(예: Azure Key Vault, HashiCorp Vault)를 사용해야 함
 - 기준 날짜는 2025년 12월로 지정
 - Docusaurus 의 공식 가이드인 https://docusaurus.io/docs 를 참고해서 문서 포맷팅
+- npm start 명령을 실행할때, 이미 실행중일수 있으니 기존 포트를 종료하고 시작해
 
 **검증 체크리스트:**
 - [ ] SQL 인젝션 방지: 파라미터화된 쿼리만 사용
