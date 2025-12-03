@@ -119,18 +119,20 @@ describe('divide', () => {
 
 ### 문서화 자동화
 
-```java title="JavaDoc 자동 생성 예시"
-/**
- * Copilot이 JavaDoc 자동 생성
- */
-public class UserService {
-    /**
-     * 사용자 ID로 사용자 정보를 조회합니다.
-     * @param userId 조회할 사용자 ID
-     * @return 사용자 정보
-     * @throws UserNotFoundException 사용자를 찾을 수 없는 경우
-     */
-    public User findById(Long userId) {
+```csharp title="XML 문서 주석 자동 생성 예시"
+/// <summary>
+/// Copilot이 XML 문서 주석 자동 생성
+/// </summary>
+public class UserService
+{
+    /// <summary>
+    /// 사용자 ID로 사용자 정보를 조회합니다.
+    /// </summary>
+    /// <param name="userId">조회할 사용자 ID</param>
+    /// <returns>사용자 정보</returns>
+    /// <exception cref="UserNotFoundException">사용자를 찾을 수 없는 경우</exception>
+    public User FindById(long userId)
+    {
         // implementation
     }
 }
