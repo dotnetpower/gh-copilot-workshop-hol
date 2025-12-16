@@ -6,7 +6,7 @@ description: AI 기반 코드 작성 도우미 GitHub Copilot의 주요 특징�
 
 # GitHub Copilot 소개
 
-GitHub Copilot은 AI 기반의 코드 작성 도우미입니다. OpenAI Codex를 기반으로 하며, 자연어 주석이나 코드 컨텍스트를 이해하여 전체 함수나 코드 라인을 제안합니다.
+GitHub Copilot은 개발자들이 코드를 더 빠르게 작성할 수 있도록 도와주는 AI 기반 코드 완성 도구입니다.
 
 
 ## 💡 주요 특징

@@ -20,7 +20,7 @@ const sidebars: SidebarsConfig = {
       label: '🚀 GitHub Copilot 시작하기',
       items: [
         'steps/introduction',
-        'steps/overview',
+        'steps/features',
         'steps/ai-models',
       ],
     },
