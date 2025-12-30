@@ -28,14 +28,15 @@ description: GitHub Copilot Chat을 활용한 코드 리뷰, 테스트 생성, �
 - **가독성 향상**: 더 명확하고 이해하기 쉬운 코드로 변경
 
 ### 2.3 테스트 코드 생성
-```javascript
-// 원본 함수
-function validateEmail(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
+```python
+import re
 
-// Copilot Chat에 "이 함수의 테스트 코드를 작성해주세요"라고 요청
+# 원본 함수
+def validate_email(email: str) -> bool:
+    regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
+    return bool(re.match(regex, email))
+
+# Copilot Chat에 "이 함수의 테스트 코드를 작성해주세요"라고 요청
 ```
 
 ### 2.4 문서화 자동생성
@@ -49,3 +50,10 @@ function validateEmail(email) {
 3. 함수 문서화(JSDoc/docstring) 자동 생성하기
 4. 코드 리뷰 의견 받기
 :::
+
+### 2.5 에이전트와 친해지기
+에이전트와 상호작용을 통해 친해지면, 내 언어를 좀더 쉽게 이해합니다.
+![Image text](/assets/agent_conv.png)
+
+- 실제 에이전트는 현재 대화 세션 동안만 기억합니다. ;)
+- 나의 표현 중에서 잘 작동하는 표현을 익히기 위해서 반복적으로 에이전트와 대화해서 친해지세요!

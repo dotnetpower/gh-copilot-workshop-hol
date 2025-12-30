@@ -10,6 +10,13 @@ def find_max(arr):
             max_val = num
     return max_val
 
+def calculateTax(price, taxRate):
+  # 세금을 계산하는 함수
+    tax = price * taxRate
+  
+  
+
+
 
 
 

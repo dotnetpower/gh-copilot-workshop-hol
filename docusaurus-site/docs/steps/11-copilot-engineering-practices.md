@@ -33,15 +33,16 @@ def authenticate_user(email: str, password: str) -> dict:
 ### 2. 보안 우선 원칙
 
 **민감 정보 처리**
-```typescript
-// ❌ 잘못된 예
-const API_KEY = "sk-1234567890abcdef";
+```python
+import os
 
-// ✅ 올바른 예 - Copilot에게 환경 변수 사용 요청
-const API_KEY = process.env.API_KEY;
-if (!API_KEY) {
-  throw new Error("API_KEY 환경 변수가 설정되지 않았습니다");
-}
+# ❌ 잘못된 예
+API_KEY = "sk-1234567890abcdef"
+
+# ✅ 올바른 예 - Copilot에게 환경 변수 사용 요청
+API_KEY = os.getenv("API_KEY")
+if not API_KEY:
+    raise ValueError("API_KEY 환경 변수가 설정되지 않았습니다")
 ```
 
 **코드 리뷰 시 확인 사항**
@@ -92,13 +93,12 @@ if (!API_KEY) {
 ```
 💡 Copilot 제안 개선 제안:
 이 함수는 Copilot이 생성한 것으로 보입니다. 
-null 체크를 추가하고 에러 핸들링을 강화하면 더 안전할 것 같습니다.
+None 체크를 추가하고 에러 핸들링을 강화하면 더 안전할 것 같습니다.
 
 제안:
-```javascript
-if (!user || !user.id) {
-  throw new Error('Invalid user object');
-}
+```python
+if not user or not hasattr(user, 'id'):
+    raise ValueError('Invalid user object')
 ```
 ```
 

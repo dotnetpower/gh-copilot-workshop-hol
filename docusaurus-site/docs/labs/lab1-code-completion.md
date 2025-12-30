@@ -34,12 +34,12 @@ description: GitHub Copilot의 기본 코드 자동완성 기능과 인라인 �
   ![alt text](/assets/inline_prompt.png)
 
 ### 1.3 기본 코드 자동완성
-```javascript
-// 함수명과 주석만 작성하면 Copilot이 구현체를 제안합니다
-function calculateTax(price, taxRate) {
-  // 세금을 계산하는 함수
+```python
+# 함수명과 주석만 작성하면 Copilot이 구현체를 제안합니다
+def calculateTax(price, taxRate):
+  # 세금을 계산하는 함수
   
-}
+
 ```
 
 ### 1.4 반복 패턴 학습
@@ -55,27 +55,30 @@ def get_tuesday():
 ```
 
 ### 1.5 주석 활용
-```javascript
-// 배열에서 최대값을 찾는 함수
-function findMax(arr) {
-  // Copilot이 구현체를 제안합니다
-}
+```python
+# 배열에서 최대값을 찾는 함수
+def find_max(arr):
+    # Copilot이 구현체를 제안합니다
+    pass
 ```
 
-### 1.6 TypeScript 타입 정의
-```typescript
-// 인터페이스 정의 후 구현 클래스를 작성하면 자동완성 제안
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  createdAt: Date;
-}
+### 1.6 데이터 클래스 정의
+```python
+from dataclasses import dataclass
+from datetime import datetime
+from typing import List
 
-class UserService {
-  // Copilot이 CRUD 메서드들을 제안합니다
-  
-}
+# 데이터 클래스 정의 후 서비스 클래스를 작성하면 자동완성 제안
+@dataclass
+class User:
+    id: str
+    name: str
+    email: str
+    created_at: datetime
+
+class UserService:
+    # Copilot이 CRUD 메서드들을 제안합니다
+    pass
 ```
 
 ### 1.7 API 호출 패턴
@@ -94,38 +97,42 @@ def create_user(name: str, email: str):
 ```
 
 ### 1.8 데이터 변환 및 처리
-```csharp
-// C# LINQ 스타일의 데이터 처리
-public class Product {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public decimal Price { get; set; }
-    public string Category { get; set; }
-}
+```python
+from dataclasses import dataclass
+from typing import List, Dict
+from decimal import Decimal
+from itertools import groupby
 
-public class ProductService {
-    // 카테고리별로 제품을 그룹화하는 메서드
-    public Dictionary<string, List<Product>> GroupProductsByCategory(List<Product> products) {
-        // Copilot이 LINQ를 사용한 그룹화 로직을 제안합니다
-        
-    }
+# Python을 사용한 데이터 처리
+@dataclass
+class Product:
+    id: int
+    name: str
+    price: Decimal
+    category: str
+
+class ProductService:
+    # 카테고리별로 제품을 그룹화하는 메서드
+    def group_products_by_category(self, products: List[Product]) -> Dict[str, List[Product]]:
+        # Copilot이 groupby를 사용한 그룹화 로직을 제안합니다
+        pass
     
-    // 가격 범위로 제품 필터링
-    public List<Product> FilterByPriceRange(List<Product> products, decimal min, decimal max) {
-        // Copilot이 필터링 로직을 제안합니다
-        
-    }
-}
+    # 가격 범위로 제품 필터링
+    def filter_by_price_range(self, products: List[Product], min_price: Decimal, max_price: Decimal) -> List[Product]:
+        # Copilot이 필터링 로직을 제안합니다
+        pass
 ```
 
 ### 1.9 에러 처리 패턴
-```javascript
-// 에러 처리가 포함된 비동기 함수
-async function fetchDataWithRetry(url, maxRetries = 3) {
-  // URL에서 데이터를 가져오고, 실패 시 재시도하는 함수
-  // Copilot이 try-catch와 재시도 로직을 제안합니다
-  
-}
+```python
+import asyncio
+from typing import Optional, Any
+
+# 에러 처리가 포함된 비동기 함수
+async def fetch_data_with_retry(url: str, max_retries: int = 3) -> Optional[Any]:
+    """URL에서 데이터를 가져오고, 실패 시 재시도하는 함수"""
+    # Copilot이 try-except와 재시도 로직을 제안합니다
+    pass
 ```
 
 ### 1.10 테스트 코드 생성
@@ -157,19 +164,20 @@ class Config:
 ```
 
 ### 1.12 정규표현식 패턴
-```javascript
-// 이메일 유효성 검증 함수
-function isValidEmail(email) {
-  // 이메일 형식을 검증하는 정규표현식
-  // Copilot이 적절한 regex 패턴을 제안합니다
-  
-}
+```python
+import re
 
-// 전화번호 포맷팅 함수 (예: 01012345678 -> 010-1234-5678)
-function formatPhoneNumber(phone) {
-  // Copilot이 포맷팅 로직을 제안합니다
-  
-}
+# 이메일 유효성 검증 함수
+def is_valid_email(email: str) -> bool:
+    """이메일 형식을 검증하는 정규표현식"""
+    # Copilot이 적절한 regex 패턴을 제안합니다
+    pass
+
+# 전화번호 포맷팅 함수 (예: 01012345678 -> 010-1234-5678)
+def format_phone_number(phone: str) -> str:
+    """전화번호 포맷팅"""
+    # Copilot이 포맷팅 로직을 제안합니다
+    pass
 ```
 
 ### 1.13 클래스와 상속 패턴
@@ -192,20 +200,21 @@ class CreditCardPayment(PaymentMethod):
 ```
 
 ### 1.14 파일 I/O 작업
-```javascript
-const fs = require('fs').promises;
+```python
+import json
+import aiofiles
+from typing import Any, Dict
+from pathlib import Path
 
-// JSON 파일 읽기/쓰기 유틸리티
-async function readJsonFile(filePath) {
-  // JSON 파일을 읽어서 객체로 반환
-  // Copilot이 에러 처리를 포함한 구현을 제안합니다
-  
-}
+# JSON 파일 읽기/쓰기 유틸리티
+async def read_json_file(file_path: Path) -> Dict[str, Any]:
+    """JSON 파일을 읽어서 딕셔너리로 반환"""
+    # Copilot이 에러 처리를 포함한 구현을 제안합니다
+    pass
 
-async function writeJsonFile(filePath, data) {
-  // 객체를 JSON 파일로 저장
-  
-}
+async def write_json_file(file_path: Path, data: Dict[str, Any]) -> None:
+    """딕셔너리를 JSON 파일로 저장"""
+    pass
 ```
 
 :::tip 💡 Copilot 활용 팁

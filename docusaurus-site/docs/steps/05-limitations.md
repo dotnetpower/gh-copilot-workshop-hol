@@ -71,12 +71,14 @@ GitHub Copilot은 공개 GitHub 리포지토리를 포함한 오픈소스 코드
 ## 주의사항
 
 ### ⚠️ 보안
-```javascript
-// Copilot이 제안할 수 있는 안전하지 않은 코드
-const password = "hardcoded_password"; // ❌ 하드코딩된 비밀번호
+```python
+import os
 
-// 대신 환경 변수 사용
-const password = process.env.PASSWORD; // ✅
+# Copilot이 제안할 수 있는 안전하지 않은 코드
+password = "hardcoded_password"  # ❌ 하드코딩된 비밀번호
+
+# 대신 환경 변수 사용
+password = os.getenv("PASSWORD")  # ✅
 ```
 
 ### ⚠️ 라이선스

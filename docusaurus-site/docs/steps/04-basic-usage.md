@@ -22,15 +22,14 @@ GitHub Copilot은 코드를 작성하는 동안 실시간으로 제안을 제공
 
 ### 예제
 
-```javascript title="기본 함수 생성 예시"
-// 두 숫자를 더하는 함수
-function add(a, b) {
-    return a + b;
-}
+```python title="기본 함수 생성 예시"
+# 두 숫자를 더하는 함수
+def add(a, b):
+    return a + b
 ```
 
 ## 실습
 
-1. 새 JavaScript 파일 생성
+1. 새 Python 파일 생성
 2. 주석으로 함수 설명 작성
 3. Copilot의 제안 확인하기

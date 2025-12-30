@@ -21,7 +21,7 @@
     "github.copilot.chat.localeOverride": "ko",
     "github.copilot.chat.generateCommitMessage.enabled": true,
     "github.copilot.chat.commitMessageGeneration.instructions": [
-        {"text":"한국어로 간략하게 요약을 두줄 이내로 생성해, feat: 같은건 넣지마"}
+        {"text":"한국어로 간략하게 수정된 내용 또는 프롬프트 중심으로 핵심만 두줄 이내로 생성해, feat: 같은건 넣지마"}
     ],
 
 

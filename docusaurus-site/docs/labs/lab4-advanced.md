@@ -17,17 +17,17 @@ description: 고급 프롬프트 엔지니어링, 커스텀 Instructions, 보안
 ### 4.1 고급 프롬프트 엔지니어링
 효과적인 프롬프트 작성을 통해 더 정확하고 유용한 결과를 얻습니다.
 
-```javascript
-/**
- * 고급 프롬프트 예시:
- * 
- * 컨텍스트: Node.js Express 애플리케이션
- * 요구사항: RESTful API 엔드포인트 작성
- * 제약조건: TypeScript, JWT 인증, 에러 핸들링 포함
- * 스타일: Clean Architecture 패턴 적용
- */
+```python
+"""
+고급 프롬프트 예시:
 
-// 이러한 상세한 컨텍스트를 제공하면 더 정확한 코드를 생성합니다
+컨텍스트: FastAPI 애플리케이션
+요구사항: RESTful API 엔드포인트 작성
+제약조건: Python 3.12+, JWT 인증, 에러 핸들링 포함, Type hints 사용
+스타일: Clean Architecture 패턴 적용
+"""
+
+# 이러한 상세한 컨텍스트를 제공하면 더 정확한 코드를 생성합니다
 ```
 
 ### 4.2 커스텀 Instructions 설정
@@ -59,14 +59,18 @@ applyTo: "**"
 - **정책 관리**: 조직별 사용 정책 설정
 
 ### 4.4 성능 모니터링 및 최적화
-```javascript
-// Copilot 사용 통계 분석
-const copilotMetrics = {
-  acceptanceRate: 85,      // 제안 수락률
-  timesSaved: 120,         // 절약된 시간 (분)
-  linesGenerated: 2450,    // 생성된 코드 라인 수
-  errorsReduced: 23        // 줄어든 버그 수
-};
+```python
+from dataclasses import dataclass
+
+# Copilot 사용 통계 분석
+@dataclass
+class CopilotMetrics:
+    acceptance_rate: float = 85.0    # 제안 수락률
+    times_saved: int = 120           # 절약된 시간 (분)
+    lines_generated: int = 2450      # 생성된 코드 라인 수
+    errors_reduced: int = 23         # 줄어든 버그 수
+
+metrics = CopilotMetrics()
 ```
 
 ### 4.5 팀 협업 최적화
@@ -142,20 +146,25 @@ GitHub Copilot은 변경된 코드를 분석하여 의미 있는 커밋 메시�
 #### 4.6.4 실습 예시
 
 **변경 전 코드:**
-```javascript
-function calculateTotal(items) {
-    return items.reduce((sum, item) => sum + item.price, 0);
-}
+```python
+def calculate_total(items):
+    return sum(item.price for item in items)
 ```
 
 **변경 후 코드:**
-```javascript
-function calculateTotal(items) {
-    if (!items || items.length === 0) {
-        return 0;
-    }
-    return items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-}
+```python
+from typing import List
+from dataclasses import dataclass
+
+@dataclass
+class Item:
+    price: float
+    quantity: int
+
+def calculate_total(items: List[Item]) -> float:
+    if not items:
+        return 0.0
+    return sum(item.price * item.quantity for item in items)
 ```
 
 **자동 생성된 커밋 메시지 예시:**

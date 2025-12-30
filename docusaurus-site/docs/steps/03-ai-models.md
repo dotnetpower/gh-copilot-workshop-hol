@@ -20,7 +20,7 @@ GitHub Copilot은 여러 AI 모델을 지원하며, 선택한 모델에 따라 C
 | 배수 | 프리미엄 요청 수 |
 |------|------------------|
 | ![alt text](/assets/premium_multiplier.png) | ![Image text](/assets/premium_requests.png) |
-| 0x: 무료 요청, 0.33x: 1/3 할린 요청 | 프리미엄 요청은 월간 한도에서 차감됩니다. |
+| 0x: 무료 요청, 0.33x: 1/3 할인 요청 | 프리미엄 요청은 월간 한도에서 차감됩니다. |
 
 ## 라이센스 별 모델 가용성
 
@@ -362,32 +362,29 @@ def fetch_user_data(user_id):
 
 ### 예제 2: 빠른 작업 (Claude Haiku 4.5)
 
-```javascript
-// Claude Haiku 4.5에게 물어보기
-// "이 함수에 입력 검증 추가해줘"
+```python
+# Claude Haiku 4.5에게 물어보기
+# "이 함수에 입력 검증 추가해줘"
 
-function calculateDiscount(price) {
-    return price * 0.9;
-}
+def calculate_discount(price):
+    return price * 0.9
 ```
 
 ### 예제 3: 심층 디버깅 (GPT-5 또는 Claude Sonnet 4)
 
-```typescript
-// GPT-5 또는 Claude Sonnet 4에게 물어보기
-// "이 코드의 성능 문제를 찾고 최적화 방법을 제안해줘"
+```python
+# GPT-5 또는 Claude Sonnet 4에게 물어보기
+# "이 코드의 성능 문제를 찾고 최적화 방법을 제안해줘"
 
-function findDuplicates(arr: number[]): number[] {
-    const duplicates: number[] = [];
-    for (let i = 0; i < arr.length; i++) {
-        for (let j = i + 1; j < arr.length; j++) {
-            if (arr[i] === arr[j] && !duplicates.includes(arr[i])) {
-                duplicates.push(arr[i]);
-            }
-        }
-    }
-    return duplicates;
-}
+from typing import List
+
+def find_duplicates(arr: List[int]) -> List[int]:
+    duplicates: List[int] = []
+    for i in range(len(arr)):
+        for j in range(i + 1, len(arr)):
+            if arr[i] == arr[j] and arr[i] not in duplicates:
+                duplicates.append(arr[i])
+    return duplicates
 ```
 
 ### 예제 4: 코드 생성 (GPT-5.1-Codex)

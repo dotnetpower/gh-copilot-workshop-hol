@@ -200,43 +200,50 @@ applyTo: '**/*.cs'
 
 ## 프로젝트별 템플릿
 
-### React Component 템플릿
+### Python View 템플릿
 
-`.github/templates/react-component.md`:
+`.github/templates/python-view.md`:
 ```markdown
-# React Component 템플릿
+# Python View 템플릿
 
-모든 React 컴포넌트는 다음 구조를 따릅니다:
+모든 API View는 다음 구조를 따릅니다:
 
-```typescript
-import React from 'react';
+```python
+from typing import Dict, Any
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 
-interface [ComponentName]Props {
-  // Props 정의
-}
+router = APIRouter()
 
-/**
- * [컴포넌트 설명]
- * 
- * @param props - 컴포넌트 속성
- * @returns JSX.Element
- */
-export const [ComponentName]: React.FC<[ComponentName]Props> = (props) => {
-  // 상태 정의
-  
-  // 이벤트 핸들러
-  
-  // 부수 효과
-  
-  // 렌더링
-  return (
-    <div className="[component-name]">
-      {/* 컴포넌트 내용 */}
-    </div>
-  );
-};
+class [ViewName]Request(BaseModel):
+    """요청 데이터 모델"""
+    # 필드 정의
+    pass
 
-export default [ComponentName];
+class [ViewName]Response(BaseModel):
+    """응답 데이터 모델"""
+    # 필드 정의
+    pass
+
+@router.post("/[resource]")
+async def [view_name](
+    request_data: [ViewName]Request
+) -> [ViewName]Response:
+    """
+    [엔드포인트 설명]
+    
+    Args:
+        request_data: 요청 데이터
+    
+    Returns:
+        응답 데이터
+        
+    Raises:
+        HTTPException: 에러 발생 시
+    """
+    # 비즈니스 로직
+    
+    return [ViewName]Response()
 ```
 ```
 
@@ -246,47 +253,55 @@ export default [ComponentName];
 ```markdown
 # API Endpoint 템플릿
 
-```typescript
-import { Request, Response, NextFunction } from 'express';
-import { body, validationResult } from 'express-validator';
+```python
+from typing import Any, Dict
+from fastapi import APIRouter, HTTPException, status
+from pydantic import BaseModel, Field, validator
 
-/**
- * [엔드포인트 설명]
- * 
- * @route [METHOD] /api/v1/[resource]
- * @access [Public/Private/Admin]
- */
+router = APIRouter()
 
-// 입력 검증
-export const validate[Action] = [
-  body('field').isString().notEmpty(),
-  // 추가 검증 규칙
-];
-
-// 컨트롤러
-export const [action]Controller = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    // 검증 결과 확인
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+class [Action]Request(BaseModel):
+    """[요청 설명]"""
+    field: str = Field(..., description="필드 설명")
     
-    // 비즈니스 로직
+    @validator('field')
+    def validate_field(cls, v):
+        if not v:
+            raise ValueError('필드는 필수입니다')
+        return v
+
+class [Action]Response(BaseModel):
+    """[응답 설명]"""
+    success: bool
+    data: Dict[str, Any]
+
+@router.post(
+    "/api/v1/[resource]",
+    response_model=[Action]Response,
+    status_code=status.HTTP_200_OK
+)
+async def [action]_endpoint(
+    request: [Action]Request
+) -> [Action]Response:
+    """
+    [엔드포인트 설명]
     
-    // 응답
-    res.status(200).json({
-      success: true,
-      data: result
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+    - **access**: [Public/Private/Admin]
+    """
+    try:
+        # 비즈니스 로직
+        result = {}
+        
+        # 응답
+        return [Action]Response(
+            success=True,
+            data=result
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
 ```
 ```
 
@@ -304,53 +319,50 @@ end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{js,ts,jsx,tsx}]
-indent_style = space
-indent_size = 2
-
-[*.{py}]
+[*.py]
 indent_style = space
 indent_size = 4
+max_line_length = 88
+
+[*.{yml,yaml,json}]
+indent_style = space
+indent_size = 2
 
 [*.{md}]
 trim_trailing_whitespace = false
-
-[*.{yml,yaml}]
-indent_style = space
-indent_size = 2
 ```
 
-### .prettierrc
+### pyproject.toml (Black 및 Ruff 설정)
 
-```json
-{
-  "semi": true,
-  "trailingComma": "es5",
-  "singleQuote": true,
-  "printWidth": 100,
-  "tabWidth": 2,
-  "arrowParens": "always"
-}
-```
+```toml
+# pyproject.toml
+[tool.black]
+line-length = 88
+target-version = ['py312']
+include = '\.pyi?$'
 
-### ESLint 설정
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+]
 
-```javascript
-// .eslintrc.js
-module.exports = {
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended',
-    'prettier'
-  ],
-  rules: {
-    // Copilot에게 준수시킬 규칙
-    'no-console': 'warn',
-    '@typescript-eslint/explicit-function-return-type': 'error',
-    'react/prop-types': 'off', // TypeScript 사용 시
-  }
-};
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]  # unused imports in __init__.py
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
 ```
 
 ## 고급 설정
@@ -365,12 +377,19 @@ module.exports = {
       "text": "이 프로젝트는 마이크로서비스 아키텍처를 사용합니다. 각 서비스는 독립적으로 배포 가능해야 합니다."
     },
     {
-      "text": "모든 API는 RESTful 원칙을 따르고 OpenAPI 3.0 스펙을 준수합니다."
+      "text": "모든 API는 FastAPI를 사용하고 OpenAPI 3.0 스펙을 자동으로 생성합니다."
     },
     {
-      "text": "에러 처리는 RFC 7807 (Problem Details) 표준을 따릅니다."
+      "text": "에러 처리는 HTTPException을 사용하고 적절한 status code를 반환합니다."
+    },
+    {
+      "text": "모든 함수와 클래스에 Type hints를 필수로 사용하고 docstring을 작성합니다."
     }
-  ]
+  ],
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.ruffEnabled": true,
+  "editor.formatOnSave": true
 }
 ```
 
@@ -387,8 +406,8 @@ module.exports = {
       "applyTo": "**/*.py"
     },
     {
-      "file": ".github/copilot-typescript.md",
-      "applyTo": "**/*.{ts,tsx}"
+      "file": ".github/copilot-tests.md",
+      "applyTo": "**/test_*.py"
     }
   ]
 }
