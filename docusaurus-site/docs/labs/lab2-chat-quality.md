@@ -53,7 +53,7 @@ def validate_email(email: str) -> bool:
 
 ### 2.5 에이전트와 친해지기
 에이전트와 상호작용을 통해 친해지면, 내 언어를 좀더 쉽게 이해합니다.
-![Image text](/assets/agent_conv.png)
+![Image text](/img/labs/agent_conv.png)
 
 - 실제 에이전트는 현재 대화 세션 동안만 기억합니다. ;)
 - 나의 표현 중에서 잘 작동하는 표현을 익히기 위해서 반복적으로 에이전트와 대화해서 친해지세요!
