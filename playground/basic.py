@@ -13,7 +13,7 @@ def find_max(arr):
 def calculateTax(price, taxRate):
   # 세금을 계산하는 함수
     pass
-  
+ 
   
 
 

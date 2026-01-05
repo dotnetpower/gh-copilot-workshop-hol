@@ -337,8 +337,8 @@ graph TD
 ### 인라인 제안 모델 변경
 
 1. VS Code **설정** 열기
-2. "Copilot" 검색
-3. **Github > Copilot > Advanced** 섹션에서 모델 선택
+2. "Change Completions Model" 검색
+3. 모델 이름 입력 (이 기능의 메뉴 위치는 다를수 있음)
 
 :::caution 주의사항
 - 일부 모델은 특정 기능(비전, Agent 모드)을 지원하지 않을 수 있습니다
