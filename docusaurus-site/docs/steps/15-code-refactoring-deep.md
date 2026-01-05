@@ -15,46 +15,73 @@ GitHub Copilot을 활용하여 대규모 레거시 코드베이스를 현대적�
 ### 1. 점진적 리팩토링
 
 **Strangler Fig 패턴**
-```typescript
-// Legacy Code
-class LegacyOrderService {
-  processOrder(orderId: string) {
-    // 1000줄의 스파게티 코드
-    const order = this.db.query(`SELECT * FROM orders WHERE id = ${orderId}`);
-    // ... 복잡한 로직
-  }
-}
+```python
+# Legacy Code
+class LegacyOrderService:
+    def process_order(self, order_id: str):
+        # 1000줄의 스파게티 코드
+        order = self.db.query(f"SELECT * FROM orders WHERE id = {order_id}")
+        # ... 복잡한 로직
 
-// Step 1: 새로운 서비스 인터페이스 생성
-// Copilot Chat: "이 레거시 서비스를 위한 현대적인 인터페이스 설계해줘"
+# Step 1: 새로운 서비스 인터페이스 생성
+# Copilot Chat: "이 레거시 서비스를 위한 현대적인 인터페이스 설계해줘"
+from abc import ABC, abstractmethod
+from typing import Protocol
+from dataclasses import dataclass
 
-interface OrderService {
-  getOrder(orderId: string): Promise<Order>;
-  processOrder(order: Order): Promise<ProcessedOrder>;
-  validateOrder(order: Order): ValidationResult;
-  calculateTotal(order: Order): number;
-}
+@dataclass
+class Order:
+    id: str
+    items: list
+    total: float
 
-// Step 2: 어댑터 패턴으로 점진적 이전
-class OrderServiceAdapter implements OrderService {
-  constructor(
-    private legacyService: LegacyOrderService,
-    private modernService: ModernOrderService
-  ) {}
-  
-  async getOrder(orderId: string): Promise<Order> {
-    // Feature flag로 점진적 전환
-    if (this.isModernEnabled(orderId)) {
-      return this.modernService.getOrder(orderId);
-    }
-    return this.legacyService.getOrder(orderId);
-  }
-  
-  private isModernEnabled(orderId: string): boolean {
-    // 10% 트래픽만 새 서비스로
-    return this.hashOrderId(orderId) % 10 === 0;
-  }
-}
+@dataclass  
+class ProcessedOrder:
+    order: Order
+    processed_at: str
+    status: str
+
+class ValidationResult:
+    is_valid: bool
+    errors: list[str]
+
+class OrderService(ABC):
+    @abstractmethod
+    async def get_order(self, order_id: str) -> Order:
+        pass
+    
+    @abstractmethod
+    async def process_order(self, order: Order) -> ProcessedOrder:
+        pass
+    
+    @abstractmethod
+    def validate_order(self, order: Order) -> ValidationResult:
+        pass
+    
+    @abstractmethod
+    def calculate_total(self, order: Order) -> float:
+        pass
+
+# Step 2: 어댑터 패턴으로 점진적 이전
+class OrderServiceAdapter(OrderService):
+    def __init__(
+        self,
+        legacy_service: LegacyOrderService,
+        modern_service: 'ModernOrderService'
+    ):
+        self.legacy_service = legacy_service
+        self.modern_service = modern_service
+    
+    async def get_order(self, order_id: str) -> Order:
+        # Feature flag로 점진적 전환
+        if self._is_modern_enabled(order_id):
+            return await self.modern_service.get_order(order_id)
+        return self.legacy_service.get_order(order_id)
+    
+    def _is_modern_enabled(self, order_id: str) -> bool:
+        # 10% 트래픽만 새 서비스로
+        return hash(order_id) % 10 == 0
+```
 ```
 
 ### 2. 레거시 코드 이해하기
@@ -568,59 +595,59 @@ def process_data_functional(data: List[DataItem]) -> float:
 
 ### N+1 쿼리 문제 해결
 
-```typescript
-// Before: N+1 쿼리 문제
-async function getBlogPostsWithComments() {
-  const posts = await db.posts.findAll(); // 1번 쿼리
-  
-  for (const post of posts) {
-    // N번 쿼리 (posts 개수만큼)
-    post.comments = await db.comments.findByPostId(post.id);
-  }
-  
-  return posts;
-}
+```python
+# Before: N+1 쿼리 문제
+async def get_blog_posts_with_comments():
+    posts = await db.posts.find_all()  # 1번 쿼리
+    
+    for post in posts:
+        # N번 쿼리 (posts 개수만큼)
+        post.comments = await db.comments.find_by_post_id(post.id)
+    
+    return posts
 
-// Copilot Chat: "N+1 쿼리 문제를 해결하고 성능을 최적화해줘"
+# Copilot Chat: "N+1 쿼리 문제를 해결하고 성능을 최적화해줘"
 
-// After: JOIN 또는 일괄 로드
-async function getBlogPostsWithComments(): Promise<PostWithComments[]> {
-  // Option 1: SQL JOIN 사용
-  const postsWithComments = await db.query(`
-    SELECT 
-      p.*,
-      json_agg(c.*) as comments
-    FROM posts p
-    LEFT JOIN comments c ON c.post_id = p.id
-    GROUP BY p.id
-  `);
-  
-  return postsWithComments;
-}
+# After: JOIN 또는 일괄 로드
+from typing import List
+import asyncio
 
-// Option 2: DataLoader 패턴
-import DataLoader from 'dataloader';
+async def get_blog_posts_with_comments() -> List[dict]:
+    # Option 1: SQL JOIN 사용
+    posts_with_comments = await db.query("""
+        SELECT 
+            p.*,
+            json_agg(c.*) as comments
+        FROM posts p
+        LEFT JOIN comments c ON c.post_id = p.id
+        GROUP BY p.id
+    """)
+    
+    return posts_with_comments
 
-const commentLoader = new DataLoader(async (postIds: string[]) => {
-  const comments = await db.comments.findByPostIds(postIds);
-  
-  // postId별로 그룹화
-  const commentsByPostId = new Map<string, Comment[]>();
-  for (const comment of comments) {
-    const existing = commentsByPostId.get(comment.postId) || [];
-    existing.push(comment);
-    commentsByPostId.set(comment.postId, existing);
-  }
-  
-  // postIds 순서대로 반환
-  return postIds.map(id => commentsByPostId.get(id) || []);
-});
+# Option 2: 일괄 로드 패턴
+from collections import defaultdict
 
-async function getBlogPostsWithCommentsOptimized() {
-  const posts = await db.posts.findAll();
-  
-  // 일괄 로드 (1번의 추가 쿼리)
-  const commentsArrays = await Promise.all(
+async def get_blog_posts_with_comments_optimized():
+    # 1. 모든 포스트 조회
+    posts = await db.posts.find_all()
+    
+    # 2. 포스트 ID 목록 추출
+    post_ids = [post.id for post in posts]
+    
+    # 3. 모든 댓글을 한 번에 조회
+    all_comments = await db.comments.find_by_post_ids(post_ids)
+    
+    # 4. post_id별로 그룹화
+    comments_by_post_id = defaultdict(list)
+    for comment in all_comments:
+        comments_by_post_id[comment.post_id].append(comment)
+    
+    # 5. 포스트에 댓글 할당
+    for post in posts:
+        post.comments = comments_by_post_id.get(post.id, [])
+    
+    return posts
     posts.map(post => commentLoader.load(post.id))
   );
   

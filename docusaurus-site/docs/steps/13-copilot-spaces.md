@@ -88,7 +88,7 @@ access:
 // .devcontainer/devcontainer.json
 {
   "name": "MyProject Space",
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
   
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
@@ -129,18 +129,18 @@ access:
 ### 실시간 협업 편집
 
 **동시 편집**
-```typescript
-// 개발자 A와 B가 동시에 같은 파일 편집 가능
-// 각자의 커서 위치가 실시간으로 표시됨
+```python
+# 개발자 A와 B가 동시에 같은 파일 편집 가능
+# 각자의 커서 위치가 실시간으로 표시됨
+from typing import TypedDict
 
-interface User {
-  id: string;
-  name: string;
-  // 개발자 A가 작성 중...
-  email: string;
-  // 개발자 B가 작성 중...
-  role: UserRole;
-}
+class User(TypedDict):
+    id: str
+    name: str
+    # 개발자 A가 작성 중...
+    email: str
+    # 개발자 B가 작성 중...
+    role: str
 ```
 
 **Live Share 통합**
@@ -151,30 +151,28 @@ interface User {
 ### AI 기반 코드 리뷰
 
 **자동 리뷰 제안**
-```javascript
-// Copilot이 자동으로 코드 이슈 탐지 및 제안
+```python
+# Copilot이 자동으로 코드 이슈 탐지 및 제안
 
-// ⚠️ Copilot Suggestion: 에러 핸들링 추가 필요
-async function fetchUserData(userId) {
-  const response = await fetch(`/api/users/${userId}`);
-  return response.json();
-}
+# ⚠️ Copilot Suggestion: 에러 핸들링 추가 필요
+import requests
 
-// ✅ Improved Version
-async function fetchUserData(userId) {
-  try {
-    const response = await fetch(`/api/users/${userId}`);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    return await response.json();
-  } catch (error) {
-    console.error('Failed to fetch user data:', error);
-    throw error;
-  }
-}
+def fetch_user_data(user_id: str) -> dict:
+    response = requests.get(f'/api/users/{user_id}')
+    return response.json()
+
+# ✅ Improved Version
+def fetch_user_data(user_id: str) -> dict:
+    try:
+        response = requests.get(f'/api/users/{user_id}', timeout=10)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.HTTPError as e:
+        print(f'HTTP error occurred: {e}')
+        raise
+    except requests.exceptions.RequestException as e:
+        print(f'Failed to fetch user data: {e}')
+        raise
 ```
 
 ### 팀 프롬프트 라이브러리
@@ -228,76 +226,92 @@ graph LR
 ```
 
 **실제 예제**
-```typescript
-// Space에서 팀원과 함께 개발
-// Copilot Chat 사용: "사용자 프로필 업데이트 API 만들어줘"
+```python
+# Space에서 팀원과 함께 개발
+# Copilot Chat 사용: "사용자 프로필 업데이트 API 만들어줘"
+from fastapi import APIRouter, HTTPException, status
+from pydantic import BaseModel, EmailStr, validator
+from typing import Optional
 
-import { Router } from 'express';
-import { body, validationResult } from 'express-validator';
+router = APIRouter()
 
-const router = Router();
-
-// Copilot이 자동 생성한 엔드포인트
-router.patch(
-  '/users/:id',
-  [
-    body('name').optional().isString().trim(),
-    body('email').optional().isEmail(),
-    body('bio').optional().isString().isLength({ max: 500 })
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    bio: Optional[str] = None
     
-    // 팀원이 실시간으로 리뷰하며 개선
-    const { id } = req.params;
-    const updates = req.body;
-    
-    try {
-      const updatedUser = await userService.updateProfile(id, updates);
-      res.json({ success: true, data: updatedUser });
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to update profile' });
-    }
-  }
-);
+    @validator('bio')
+    def validate_bio(cls, v):
+        if v and len(v) > 500:
+            raise ValueError('Bio must be 500 characters or less')
+        return v
+
+# Copilot이 자동 생성한 엔드포인트
+@router.patch('/users/{user_id}')
+async def update_user_profile(user_id: str, updates: UserUpdate):
+    """ 사용자 프로필을 업데이트합니다. """
+    # 팀원이 실시간으로 리뷰하며 개선
+    try:
+        updated_user = await user_service.update_profile(
+            user_id, 
+            updates.dict(exclude_unset=True)
+        )
+        return {'success': True, 'data': updated_user}
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail='Failed to update profile'
+        )
 ```
 
 ### 2. 버그 수정 워크플로우
 
-```typescript
-// Copilot Chat: "이 코드의 버그를 찾아줘"
+```python
+# Copilot Chat: "이 코드의 버그를 찾아줘"
 
-// 🐛 원본 코드 (버그 있음)
-function calculateDiscount(price: number, discountPercent: number) {
-  return price - (price * discountPercent / 100);
-}
+# 🐛 원본 코드 (버그 있음)
+def calculate_discount(price: float, discount_percent: float) -> float:
+    return price - (price * discount_percent / 100)
 
-// ✅ Copilot이 개선 제안
-function calculateDiscount(price: number, discountPercent: number): number {
-  // 입력 검증 추가
-  if (price < 0 || discountPercent < 0 || discountPercent > 100) {
-    throw new Error('Invalid input parameters');
-  }
-  
-  // 부동소수점 오류 방지
-  const discount = Math.round(price * discountPercent) / 100;
-  return Math.max(0, price - discount);
-}
+# ✅ Copilot이 개선 제안
+def calculate_discount(price: float, discount_percent: float) -> float:
+    """
+    제품 가격에서 할인을 적용합니다.
+    
+    Args:
+        price: 원래 가격 (양수)
+        discount_percent: 할인율 (0-100)
+    
+    Returns:
+        할인이 적용된 최종 가격
+    
+    Raises:
+        ValueError: 입력값이 유효하지 않은 경우
+    """
+    # 입력 검증 추가
+    if price < 0:
+        raise ValueError("Price cannot be negative")
+    if not 0 <= discount_percent <= 100:
+        raise ValueError("Discount percent must be between 0 and 100")
+    
+    discount_amount = price * (discount_percent / 100)
+    return price - discount_amount
 
-// 팀원이 실시간으로 테스트 추가
-describe('calculateDiscount', () => {
-  it('should calculate discount correctly', () => {
-    expect(calculateDiscount(100, 10)).toBe(90);
-  });
-  
-  it('should handle edge cases', () => {
-    expect(() => calculateDiscount(-100, 10)).toThrow();
-    expect(() => calculateDiscount(100, 150)).toThrow();
-  });
-});
+# 팀원이 실시간으로 테스트 추가
+import pytest
+
+def test_calculate_discount_correctly():
+    assert calculate_discount(100, 10) == 90.0
+
+def test_handle_edge_cases():
+    assert calculate_discount(0, 10) == 0.0
+    assert calculate_discount(100, 0) == 100.0
+    
+def test_invalid_input():
+    with pytest.raises(ValueError):
+        calculate_discount(-100, 10)
+    with pytest.raises(ValueError):
+        calculate_discount(100, 150)
 ```
 
 ## 협업 베스트 프랙티스

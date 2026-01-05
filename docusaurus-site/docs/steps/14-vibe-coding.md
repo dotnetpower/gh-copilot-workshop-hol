@@ -49,22 +49,34 @@ def process_high_value_orders(orders: List[Dict]) -> List[Dict]:
 ### Flow State 개발
 
 **연속적인 대화**
-```typescript
-// 1. 시작: 기본 구조
-// "User authentication system"
-interface AuthService {
-  // Copilot: 로그인/로그아웃 메서드 제안
-}
+```python
+# 1. 시작: 기본 구조
+# "User authentication system"
+from abc import ABC, abstractmethod
 
-// 2. 확장: 세부 기능
-// "Add JWT token generation"
-class AuthServiceImpl implements AuthService {
-  // Copilot: JWT 관련 메서드 추가
-}
+class AuthService(ABC):
+    # Copilot: 로그인/로그아웃 메서드 제안
+    @abstractmethod
+    def login(self, username: str, password: str):
+        pass
+    
+    @abstractmethod
+    def logout(self, user_id: str):
+        pass
 
-// 3. 보강: 보안 강화
-// "Add rate limiting and security headers"
-// Copilot: 보안 기능 추가
+# 2. 확장: 세부 기능
+# "Add JWT token generation"
+class AuthServiceImpl(AuthService):
+    # Copilot: JWT 관련 메서드 추가
+    def generate_token(self, user_id: str) -> str:
+        pass
+    
+    def validate_token(self, token: str) -> bool:
+        pass
+
+# 3. 보강: 보안 강화
+# "Add rate limiting and security headers"
+# Copilot: 보안 기능 추가
 ```
 
 ## 실전 Vibe 코딩 패턴
@@ -73,82 +85,109 @@ class AuthServiceImpl implements AuthService {
 
 **시나리오: E-commerce 장바구니 구현**
 
-```typescript
-// Step 1: 큰 그림 그리기
-// Copilot Chat에 질문:
-// "온라인 쇼핑몰의 장바구니 시스템을 만들어줘. 
-//  TypeScript로 작성하고, 상품 추가/제거/수량 변경 기능이 필요해"
+```python
+# Step 1: 큰 그림 그리기
+# Copilot Chat에 질문:
+# "온라인 쇼핑몰의 장바구니 시스템을 만들어줘. 
+#  Python으로 작성하고, 상품 추가/제거/수량 변경 기능이 필요해"
 
-// Copilot이 제안한 인터페이스
-interface CartItem {
-  productId: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
+from typing import List, Dict, Optional
+from dataclasses import dataclass
+import json
 
-interface ShoppingCart {
-  items: CartItem[];
-  addItem(item: CartItem): void;
-  removeItem(productId: string): void;
-  updateQuantity(productId: string, quantity: number): void;
-  getTotal(): number;
-  clear(): void;
-}
+# Copilot이 제안한 데이터 클래스
+@dataclass
+class CartItem:
+    product_id: str
+    name: str
+    price: float
+    quantity: int
 
-// Step 2: 세부 구현 요청
-// "ShoppingCart 클래스를 구현해줘. 
-//  로컬 스토리지에 저장하고 에러 처리도 추가해"
-
-class ShoppingCartImpl implements ShoppingCart {
-  private static STORAGE_KEY = 'shopping_cart';
-  items: CartItem[] = [];
-
-  constructor() {
-    this.loadFromStorage();
-  }
-
-  addItem(item: CartItem): void {
-    const existingItem = this.items.find(i => i.productId === item.productId);
+class ShoppingCart:
+    """장바구니 인터페이스"""
+    def add_item(self, item: CartItem) -> None:
+        pass
     
-    if (existingItem) {
-      existingItem.quantity += item.quantity;
-    } else {
-      this.items.push({ ...item });
-    }
+    def remove_item(self, product_id: str) -> None:
+        pass
     
-    this.saveToStorage();
-  }
+    def update_quantity(self, product_id: str, quantity: int) -> None:
+        pass
+    
+    def get_total(self) -> float:
+        pass
+    
+    def clear(self) -> None:
+        pass
 
-  // Copilot이 나머지 메서드 자동 완성...
-  
-  private loadFromStorage(): void {
-    try {
-      const stored = localStorage.getItem(ShoppingCartImpl.STORAGE_KEY);
-      if (stored) {
-        this.items = JSON.parse(stored);
-      }
-    } catch (error) {
-      console.error('Failed to load cart from storage', error);
-      this.items = [];
-    }
-  }
+# Step 2: 세부 구현 요청
+# "ShoppingCart 클래스를 구현해줘. 
+#  파일 시스템에 저장하고 에러 처리도 추가해"
 
-  private saveToStorage(): void {
-    try {
-      localStorage.setItem(
-        ShoppingCartImpl.STORAGE_KEY,
-        JSON.stringify(this.items)
-      );
-    } catch (error) {
-      console.error('Failed to save cart to storage', error);
-    }
-  }
-}
+class ShoppingCartImpl(ShoppingCart):
+    STORAGE_FILE = 'shopping_cart.json'
+    
+    def __init__(self):
+        self.items: List[CartItem] = []
+        self.load_from_storage()
+    
+    def add_item(self, item: CartItem) -> None:
+        existing_item = next(
+            (i for i in self.items if i.product_id == item.product_id),
+            None
+        )
+        
+        if existing_item:
+            existing_item.quantity += item.quantity
+        else:
+            self.items.append(item)
+        
+        self.save_to_storage()
+    
+    def remove_item(self, product_id: str) -> None:
+        self.items = [i for i in self.items if i.product_id != product_id]
+        self.save_to_storage()
+    
+    def update_quantity(self, product_id: str, quantity: int) -> None:
+        item = next(
+            (i for i in self.items if i.product_id == product_id),
+            None
+        )
+        if item:
+            item.quantity = quantity
+            self.save_to_storage()
+    
+    def get_total(self) -> float:
+        return sum(item.price * item.quantity for item in self.items)
+    
+    def clear(self) -> None:
+        self.items = []
+        self.save_to_storage()
+    
+    # Copilot이 나머지 메서드 자동 완성...
+    
+    def load_from_storage(self) -> None:
+        try:
+            with open(self.STORAGE_FILE, 'r') as f:
+                data = json.load(f)
+                self.items = [CartItem(**item) for item in data]
+        except FileNotFoundError:
+            self.items = []
+        except Exception as e:
+            print(f'Failed to load cart from storage: {e}')
+            self.items = []
+    
+    def save_to_storage(self) -> None:
+        try:
+            with open(self.STORAGE_FILE, 'w') as f:
+                data = [vars(item) for item in self.items]
+                json.dump(data, f, indent=2)
+        except Exception as e:
+            print(f'Failed to save cart to storage: {e}')
 
-// Step 3: 테스트 추가 요청
-// "이 클래스의 테스트 코드를 작성해줘"
-// Copilot이 테스트 자동 생성
+# Step 3: 테스트 추가 요청
+# "이 클래스의 테스트 코드를 작성해줘"
+# Copilot이 테스트 자동 생성
 ```
 
 ### 패턴 2: 점진적 개선
@@ -226,67 +265,84 @@ class GitHubClient:
 
 ### 패턴 3: 컨텍스트 활용
 
-```javascript
-// 프로젝트 컨텍스트 파일 생성
-// .github/copilot-context/ecommerce.md
+```python
+# 프로젝트 컨텍스트 파일 생성
+# .github/copilot-context/ecommerce.md
 
-/**
- * E-commerce 프로젝트 컨텍스트
- * 
- * 기술 스택:
- * - Frontend: React, TypeScript, Redux Toolkit
- * - Backend: Node.js, Express, MongoDB
- * - Payment: Stripe API
- * 
- * 비즈니스 규칙:
- * - 최소 주문 금액: $10
- * - 배송비: $50 이상 무료, 그 외 $5
- * - 포인트 적립: 구매 금액의 5%
- */
+"""
+E-commerce 프로젝트 컨텍스트
 
-// 이제 Copilot에게 요청
-// "결제 처리 함수를 만들어줘"
+기술 스택:
+- Frontend: React, Vite, Redux Toolkit
+- Backend: Python, FastAPI, MongoDB
+- Payment: Stripe API
 
-async function processPayment(
-  cartItems: CartItem[],
-  userPoints: number,
-  paymentMethod: PaymentMethod
-): Promise<PaymentResult> {
-  // Copilot이 프로젝트 컨텍스트를 고려하여 생성
-  
-  // 1. 최소 주문 금액 확인
-  const subtotal = calculateSubtotal(cartItems);
-  if (subtotal < 10) {
-    throw new Error('Minimum order amount is $10');
-  }
-  
-  // 2. 배송비 계산
-  const shipping = subtotal >= 50 ? 0 : 5;
-  
-  // 3. 포인트 사용
-  const pointsToUse = Math.min(userPoints, subtotal * 0.5); // 최대 50%
-  
-  // 4. 총 금액
-  const total = subtotal + shipping - pointsToUse;
-  
-  // 5. Stripe 결제 처리
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: Math.round(total * 100), // cents
-    currency: 'usd',
-    payment_method: paymentMethod.id,
-    confirm: true
-  });
-  
-  // 6. 포인트 적립
-  const earnedPoints = Math.floor(total * 0.05);
-  
-  return {
-    success: true,
-    transactionId: paymentIntent.id,
-    total,
-    earnedPoints
-  };
-}
+비즈니스 규칙:
+- 최소 주문 금액: $10
+- 배송비: $50 이상 무료, 그 외 $5
+- 포인트 적립: 구매 금액의 5%
+"""
+
+from typing import List, Dict
+import stripe
+import math
+
+# 이제 Copilot에게 요청
+# "결제 처리 함수를 만들어줘"
+
+async def process_payment(
+    cart_items: List[CartItem],
+    user_points: float,
+    payment_method: Dict
+) -> Dict:
+    """
+    결제를 처리합니다.
+    
+    Args:
+        cart_items: 장바구니 아이템 리스트
+        user_points: 사용자 포인트
+        payment_method: 결제 수단 정보
+    
+    Returns:
+        결제 결과 딕셔너리
+    """
+    # Copilot이 프로젝트 컨텍스트를 고려하여 생성
+    
+    # 1. 최소 주문 금액 확인
+    subtotal = calculate_subtotal(cart_items)
+    if subtotal < 10:
+        raise ValueError('Minimum order amount is $10')
+    
+    # 2. 배송비 계산
+    shipping = 0 if subtotal >= 50 else 5
+    
+    # 3. 포인트 사용
+    points_to_use = min(user_points, subtotal * 0.5)  # 최대 50%
+    
+    # 4. 총 금액
+    total = subtotal + shipping - points_to_use
+    
+    # 5. Stripe 결제 처리
+    payment_intent = stripe.PaymentIntent.create(
+        amount=round(total * 100),  # cents
+        currency='usd',
+        payment_method=payment_method['id'],
+        confirm=True
+    )
+    
+    # 6. 포인트 적립
+    earned_points = math.floor(total * 0.05)
+    
+    return {
+        'success': True,
+        'transaction_id': payment_intent.id,
+        'total': total,
+        'earned_points': earned_points
+    }
+
+def calculate_subtotal(cart_items: List[CartItem]) -> float:
+    """장바구니 아이템들의 소계를 계산합니다."""
+    return sum(item.price * item.quantity for item in cart_items)
 ```
 
 ## Vibe 코딩 기법
@@ -321,75 +377,115 @@ def analyze_sales_data(sales_records):
 
 ### 2. 예제 주도 학습
 
-```typescript
-// Copilot에게 예제를 보여주면 패턴 학습
+```python
+# Copilot에게 예제를 보여주면 패턴 학습
+import re
 
-// 예제 1
-function validateEmail(email: string): boolean {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
+# 예제 1
+def validate_email(email: str) -> bool:
+    """이메일 주소의 유효성을 검증합니다."""
+    regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
+    return bool(re.match(regex, email))
 
-// 예제 2
-function validatePhone(phone: string): boolean {
-  const regex = /^\d{3}-\d{3,4}-\d{4}$/;
-  return regex.test(phone);
-}
+# 예제 2
+def validate_phone(phone: str) -> bool:
+    """전화번호의 유효성을 검증합니다."""
+    regex = r'^\d{3}-\d{3,4}-\d{4}$'
+    return bool(re.match(regex, phone))
 
-// 이제 Copilot에게 요청: "주민등록번호 검증 함수"
-// Copilot이 패턴을 학습하여 생성
-function validateSSN(ssn: string): boolean {
-  // Copilot 자동 완성
-  const regex = /^\d{6}-\d{7}$/;
-  if (!regex.test(ssn)) return false;
-  
-  // 간단한 체크섬 검증
-  // Copilot이 추가 로직 제안
-}
+# 이제 Copilot에게 요청: "주민등록번호 검증 함수"
+# Copilot이 패턴을 학습하여 생성
+def validate_ssn(ssn: str) -> bool:
+    """주민등록번호의 유효성을 검증합니다."""
+    # Copilot 자동 완성
+    regex = r'^\d{6}-\d{7}$'
+    if not re.match(regex, ssn):
+        return False
+    
+    # 간단한 체크섬 검증
+    # Copilot이 추가 로직 제안
+    digits = ssn.replace('-', '')
+    weights = [2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5]
+    checksum = sum(int(d) * w for d, w in zip(digits[:12], weights))
+    check_digit = (11 - (checksum % 11)) % 10
+    
+    return int(digits[12]) == check_digit
 ```
 
 ### 3. 리팩토링 대화
 
-```javascript
-// 기존 코드
-function calc(a, b, op) {
-  if (op == '+') return a + b;
-  if (op == '-') return a - b;
-  if (op == '*') return a * b;
-  if (op == '/') return a / b;
-}
+```python
+# 기존 코드
+def calc(a, b, op):
+    if op == '+':
+        return a + b
+    if op == '-':
+        return a - b
+    if op == '*':
+        return a * b
+    if op == '/':
+        return a / b
 
-// Copilot Chat: "이 코드를 개선해줘. 
-//                TypeScript로 변환하고, 
-//                에러 처리 추가하고,
-//                더 확장 가능한 구조로 만들어줘"
+# Copilot Chat: "이 코드를 개선해줘. 
+#                타입 힌트 추가하고, 
+#                에러 처리 추가하고,
+#                더 확장 가능한 구조로 만들어줘"
 
-// Copilot 제안
-type Operation = '+' | '-' | '*' | '/';
+# Copilot 제안
+from typing import Literal, Callable, Dict
+from abc import ABC, abstractmethod
 
-interface Calculator {
-  calculate(a: number, b: number, operation: Operation): number;
-}
+Operation = Literal['+', '-', '*', '/']
 
-class BasicCalculator implements Calculator {
-  private operations: Record<Operation, (a: number, b: number) => number> = {
-    '+': (a, b) => a + b,
-    '-': (a, b) => a - b,
-    '*': (a, b) => a * b,
-    '/': (a, b) => {
-      if (b === 0) throw new Error('Division by zero');
-      return a / b;
-    }
-  };
+class Calculator(ABC):
+    """계산기 인터페이스"""
+    
+    @abstractmethod
+    def calculate(self, a: float, b: float, operation: Operation) -> float:
+        """연산을 수행합니다."""
+        pass
 
-  calculate(a: number, b: number, operation: Operation): number {
-    const op = this.operations[operation];
-    if (!op) {
-      throw new Error(`Unsupported operation: ${operation}`);
-    }
-    return op(a, b);
-  }
-}
+class BasicCalculator(Calculator):
+    """기본 계산기 구현"""
+    
+    def __init__(self):
+        self.operations: Dict[str, Callable[[float, float], float]] = {
+            '+': lambda a, b: a + b,
+            '-': lambda a, b: a - b,
+            '*': lambda a, b: a * b,
+            '/': self._divide
+        }
+    
+    def _divide(self, a: float, b: float) -> float:
+        """나눗셈 연산 (0으로 나누기 방지)"""
+        if b == 0:
+            raise ValueError('Division by zero')
+        return a / b
+    
+    def calculate(self, a: float, b: float, operation: Operation) -> float:
+        """
+        두 숫자에 대한 연산을 수행합니다.
+        
+        Args:
+            a: 첫 번째 피연산자
+            b: 두 번째 피연산자
+            operation: 수행할 연산 (+, -, *, /)
+        
+        Returns:
+            연산 결과
+        
+        Raises:
+            ValueError: 지원하지 않는 연산이거나 0으로 나누는 경우
+        """
+        op_func = self.operations.get(operation)
+        if not op_func:
+            raise ValueError(f'Unsupported operation: {operation}')
+        return op_func(a, b)
+
+# 사용 예제
+calculator = BasicCalculator()
+result = calculator.calculate(10, 5, '+')
+print(f"Result: {result}")  # Output: Result: 15.0
 ```
 
 ## Vibe 코딩 베스트 프랙티스
@@ -433,24 +529,24 @@ class BasicCalculator implements Calculator {
 
 ```
 1. Copilot Chat에 요청:
-   "React + TypeScript로 Todo 앱 만들어줘.
-    LocalStorage 사용, 
+   "Python + Flask로 Todo 앱 API 만들어줘.
+    SQLite 데이터베이스 사용, 
     CRUD 기능 모두 포함,
-    반응형 디자인"
+    RESTful API 설계"
 
 2. 단계별 확인하며 개선
-3. 테스트 코드 추가 요청
-4. 스타일링 개선
+3. 테스트 코드 추가 요청 (pytest 사용)
+4. API 문서화 추가 (Swagger)
 ```
 
 ### 연습 2: REST API 서버
 
 ```
-1. "Express + TypeScript로 RESTful API 서버"
+1. "FastAPI + Python으로 RESTful API 서버"
 2. "사용자 CRUD 엔드포인트 추가"
 3. "JWT 인증 미들웨어 추가"
-4. "입력 검증 및 에러 핸들링"
-5. "API 문서 자동 생성"
+4. "Pydantic으로 입력 검증 및 에러 핸들링"
+5. "자동 API 문서 생성 (OpenAPI/Swagger)"
 ```
 
 ## 다음 단계

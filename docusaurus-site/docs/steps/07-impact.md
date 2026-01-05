@@ -82,23 +82,23 @@ Copilot은 라이브러리의 일반적인 사용 패턴을 자동으로 제안�
 
 ### 테스트 커버리지 향상
 
-```typescript title="함수와 테스트 자동 생성 예시"
-// 함수 작성
-function divide(a: number, b: number): number {
-    if (b === 0) throw new Error('Division by zero');
-    return a / b;
-}
+```python
+# 함수 작성
+def divide(a: float, b: float) -> float:
+    """두 숫자를 나눔니다."""
+    if b == 0:
+        raise ValueError('Division by zero')
+    return a / b
 
-// Copilot이 테스트 제안
-describe('divide', () => {
-    it('should divide two numbers', () => {
-        expect(divide(10, 2)).toBe(5);
-    });
-    
-    it('should throw error for division by zero', () => {
-        expect(() => divide(10, 0)).toThrow('Division by zero');
-    });
-});
+# Copilot이 테스트 제안
+import pytest
+
+def test_divide_two_numbers():
+    assert divide(10, 2) == 5.0
+
+def test_divide_raises_error_for_division_by_zero():
+    with pytest.raises(ValueError, match='Division by zero'):
+        divide(10, 0)
 ```
 
 :::tip 테스트 작성 효율

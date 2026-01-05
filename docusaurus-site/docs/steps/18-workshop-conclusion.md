@@ -100,37 +100,55 @@ Copilot이 생성한 모든 코드는 반드시 검토하세요:
 
 #### 2. 테스트는 필수
 
-```typescript
-// Copilot으로 구현 생성 후
-// "/tests 이 함수에 대한 테스트를 작성해주세요"
+```python
+# Copilot으로 구현 생성 후
+# "/tests 이 함수에 대한 테스트를 작성해주세요"
+import pytest
+import re
 
-describe('validateEmail', () => {
-  it('should accept valid email', () => {
-    expect(validateEmail('user@example.com')).toBe(true);
-  });
-  
-  it('should reject invalid format', () => {
-    expect(validateEmail('invalid-email')).toBe(false);
-  });
-  
-  // Copilot이 엣지 케이스도 제안합니다
-  it('should handle special characters', () => {
-    expect(validateEmail('user+tag@example.com')).toBe(true);
-  });
-});
+def validate_email(email: str) -> bool:
+    """ 이메일 유효성 검증 """
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    return bool(re.match(pattern, email))
+
+def test_validate_email_accepts_valid_email():
+    assert validate_email('user@example.com') == True
+
+def test_validate_email_rejects_invalid_format():
+    assert validate_email('invalid-email') == False
+
+# Copilot이 엣지 케이스도 제안합니다
+def test_validate_email_handles_special_characters():
+    assert validate_email('user+tag@example.com') == True
+```
 ```
 
 #### 3. 보안 검토
 
-```javascript
-// ❌ Copilot 제안을 그대로 사용하지 마세요
-const password = req.body.password; // SQL Injection 가능!
+```python
+# ❌ Copilot 제안을 그대로 사용하지 마세요
+password = request.form.get('password')  # SQL Injection 가능!
 
-// ✅ 검증 및 sanitization 추가
-const password = sanitize(req.body.password);
-if (!isValidPassword(password)) {
-  throw new ValidationError('Invalid password format');
-}
+# ✅ 검증 및 sanitization 추가
+from html import escape
+import re
+
+password = escape(request.form.get('password', ''))
+if not is_valid_password(password):
+    raise ValueError('Invalid password format')
+
+def is_valid_password(password: str) -> bool:
+    """ 비밀번호 유효성 검증 """
+    if len(password) < 8:
+        return False
+    if not re.search(r'[A-Z]', password):
+        return False
+    if not re.search(r'[a-z]', password):
+        return False
+    if not re.search(r'\d', password):
+        return False
+    return True
+```
 ```
 
 ### 효율적인 워크플로우
@@ -190,7 +208,7 @@ async function getUserById(userId) {
 # 우리 팀의 개발 원칙
 
 ## 코드 스타일
-- TypeScript strict mode 사용
+- Python mypy strict 모드 사용
 - ESLint + Prettier 규칙 준수
 - 함수는 20줄 이내로 제한
 

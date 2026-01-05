@@ -78,7 +78,7 @@ find . -name "*.log" -type f -mtime +7 -delete
 
 **설정 최적화**
 ```
-@vscode TypeScript 프로젝트를 위한 최적의 settings.json 설정
+@vscode Python 프로젝트를 위한 최적의 settings.json 설정
 
 @vscode Python 개발을 위한 추천 확장 프로그램과 설정
 ```
@@ -108,10 +108,10 @@ find . -name "*.log" -type f -mtime +7 -delete
 **3단계: 코드 생성**
 ```
 위 계획에 따라 다음을 생성해줘:
-1. API 엔드포인트 (Express.js)
+1. API 엔드포인트 (FastAPI)
 2. 프론트엔드 컴포넌트 (React)
-3. 테스트 코드
-4. 타입 정의 (TypeScript)
+3. 테스트 코드 (pytest)
+4. 데이터 모델 (Pydantic)
 ```
 
 **4단계: 배포 준비**
@@ -183,8 +183,8 @@ find . -name "*.log" -type f -mtime +7 -delete
 
 **복잡한 작업 자동화**
 
-```typescript
-// .github/copilot-workflows/feature-development.yml
+```yaml
+# .github/copilot-workflows/feature-development.yml
 workflow:
   name: "Full Feature Development"
   

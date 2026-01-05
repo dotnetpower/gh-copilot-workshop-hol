@@ -27,22 +27,23 @@ applyTo: '**'
 # MyProject Copilot 지침
 
 ## 프로젝트 개요
-이 프로젝트는 React + TypeScript 기반의 전자상거래 플랫폼입니다.
+이 프로젝트는 Python + FastAPI 기반의 전자상거래 플랫폼입니다.
 
 ## 기술 스택
-- Frontend: React 18, TypeScript 5, Tailwind CSS
-- Backend: Node.js, Express, PostgreSQL
-- Testing: Jest, React Testing Library
+- Backend: Python 3.12, FastAPI, SQLAlchemy
+- Database: PostgreSQL
+- Testing: pytest, pytest-asyncio
+- Frontend: React 18, Vite
 
 ## 코딩 규칙
-1. 모든 컴포넌트는 함수형 컴포넌트로 작성
-2. PropTypes 대신 TypeScript 인터페이스 사용
-3. 상태 관리는 Zustand 사용
-4. API 호출은 React Query 활용
+1. 모든 API 엔드포인트는 async/await 사용
+2. Pydantic 모델로 데이터 검증
+3. 상태 관리는 Zustand 사용 (Frontend)
+4. API 호출은 React Query 활용 (Frontend)
 
 ## 명명 규칙
-- 컴포넌트: PascalCase (예: ProductCard.tsx)
-- 유틸 함수: camelCase (예: formatPrice.ts)
+- 모듈/클래스: PascalCase (예: ProductService.py)
+- 함수: snake_case (예: format_price.py)
 - 상수: UPPER_SNAKE_CASE (예: API_BASE_URL)
 - CSS 클래스: kebab-case (예: product-card)
 

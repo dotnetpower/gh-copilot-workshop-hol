@@ -25,7 +25,7 @@ description: 다중 파일 편집, 프로젝트 구조 개선, Agents Mode를 �
 // Copilot Edits 명령 예시:
 "모든 JavaScript 파일에서 var를 const/let으로 변경해주세요"
 "프로젝트 전체에서 함수명을 camelCase로 통일해주세요"
-"모든 컴포넌트에 TypeScript 타입을 추가해주세요"
+"모든 컴포넌c트에 PropTypes를 추가해주세요"
 ```
 
 ### 3.2 Agents Mode 활용

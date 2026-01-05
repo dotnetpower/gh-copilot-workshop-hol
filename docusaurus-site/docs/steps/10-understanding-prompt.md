@@ -52,15 +52,18 @@ function add(a, b) {
 ```
 
 ### 컨텍스트 제공
-```typescript title="컨텍스트를 포함한 요청 예시"
-// 기존 코드와 함께 사용될 컨텍스트 제공
-interface User {
-    id: number;
-    name: string;
-    email: string;
-}
+```python
+# 기존 코드와 함께 사용될 컨텍스트 제공
+from typing import TypedDict
 
-// User 배열에서 특정 이메일을 가진 사용자를 찾는 함수
+class User(TypedDict):
+    id: int
+    name: str
+    email: str
+
+# User 리스트에서 특정 이메일을 가진 사용자를 찾는 함수
+def find_user_by_email(users: list[User], email: str) -> User | None:
+    return next((user for user in users if user['email'] == email), None)
 ```
 
 ## 주요 프롬프트 기법

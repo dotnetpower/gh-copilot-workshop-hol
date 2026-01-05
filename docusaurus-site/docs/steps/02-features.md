@@ -22,7 +22,7 @@ description: GitHub Copilot의 주요 기능(Features)과 활용 팁, 보안 및
 
 - **코드 생성 (Snippet / Boilerplate)**: 반복적인 보일러플레이트 코드(예: CRUD, 테스트 스켈레톤, 설정 파일)를 빠르게 생성합니다.
 - **리팩토링 및 개선 제안**: 가독성, 성능, 안전성을 고려한 코드 개선 아이디어를 제공합니다. 기존 코드를 더 깔끔하게 정리하는 데 도움 됩니다.
-- **다중언어 지원**: JavaScript/TypeScript, Python, C#, Java, Go 등 주요 언어 대부분을 지원하며, 도메인 특화 언어도 일부 지원합니다.
+- **다중언어 지원**: JavaScript, Python, C#, Java, Go 등 주요 언어 대부분을 지원하며, 도메인 특화 언어도 일부 지원합니다.
 - **IDE 통합**: VS Code, JetBrains 제품군 등과 원활하게 연동되어 편리한 개발 경험을 제공합니다.
 
 ## 생산성 향상 팁
