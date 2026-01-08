@@ -79,7 +79,7 @@ const sidebars: SidebarsConfig = {
         'steps/cicd-automation',
         'steps/coding-agents',
       ],
-    },
+    },    
     {
       type: 'category',
       label: '🧪 실습',
@@ -90,6 +90,23 @@ const sidebars: SidebarsConfig = {
         'labs/lab4-advanced',
         'labs/lab5-docusaurus-blog',
       ],
+    },
+    {
+      type: 'category',
+      label: '🤖 Awesome GitHub Copilot',
+      items: [
+        'awesome/intro',
+        'awesome/agents',
+        'awesome/prompts',
+        'awesome/instructions',
+        'awesome/skills',
+        'awesome/collections',
+      ],
+    },
+    {
+      type: 'doc',
+      id: 'steps/workshop-conclusion',
+      label: '🏁 워크숍 결론'
     },
   ],
 };

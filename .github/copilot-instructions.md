@@ -23,6 +23,7 @@ applyTo: '**'
 - 기준 날짜는 2025년 12월로 지정
 - Docusaurus 의 공식 가이드인 https://docusaurus.io/docs 를 참고해서 문서 포맷팅
 - npm start 명령을 실행할때, 이미 실행중일수 있으니 기존 포트를 종료하고 시작해
+- 문서 내 이모지 최소화
 
 **검증 체크리스트:**
 - [ ] SQL 인젝션 방지: 파라미터화된 쿼리만 사용
@@ -62,6 +63,8 @@ applyTo: '**'
 - 테스트 간 의존성 없이 독립적으로 실행 가능해야 함
 - 구체적인 assertion 사용 (generic assertTrue/assertFalse 지양)
 
+### 4. 변경 규칙
+- .md 파일의 파일명이 변경되면 sidebar 의 내용도 함께 업데이트 해줘.
 ---
 
 ## Python 개발 지침

@@ -53,3 +53,16 @@ GitHub Copilot은 **OpenAI의 대규모 언어 모델(LLM)** 을 기반으로 �
   />
 </div>
 
+## 추가 리소스
+
+대규모 언어 모델의 개념과 작동 원리를 쉽게 설명하는 영상
+<div style={{position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden'}}>
+  <iframe 
+    src="https://www.youtube.com/embed/HnvitMTkXro" 
+    frameBorder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowFullScreen
+    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}
+  />
+</div>
+

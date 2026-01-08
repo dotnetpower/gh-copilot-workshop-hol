@@ -1,5 +1,5 @@
 ---
-sidebar_position: 17
+sidebar_position: 99
 title: 워크숍 마무리 및 Best Practices
 description: GitHub Copilot 워크숍 총정리 및 실무 적용을 위한 모범 사례
 ---
