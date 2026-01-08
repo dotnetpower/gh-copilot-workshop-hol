@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: '[WIP]GitHub Copilot Workshop',
+  title: 'GitHub Copilot Workshop',
   tagline: '실습으로 배우는 GitHub Copilot',
   favicon: 'img/favicon.ico',
 
@@ -59,7 +59,7 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: '[WIP]GitHub Copilot Workshop',
+      title: 'GitHub Copilot Workshop',
       logo: {
         alt: 'GitHub Copilot Logo',
         src: 'img/logo.svg',

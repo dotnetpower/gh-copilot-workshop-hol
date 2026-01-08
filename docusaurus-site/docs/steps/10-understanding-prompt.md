@@ -70,19 +70,34 @@ def find_user_by_email(users: list[User], email: str) -> User | None:
 
 ### 1. Zero-shot Prompting (제로샷 프롬프팅)
 
-Zero-shot 프롬프팅은 모델에게 예시를 제공하지 않고 직접 작업을 지시하는 방법입니다. GPT-4, Claude 3 같은 대규모 모델들은 별도의 예시 없이도 많은 작업을 수행할 수 있습니다.
+Zero-shot 프롬프팅은 모델에게 예시를 제공하지 않고 직접 작업을 지시하는 방법입니다. GitHub Copilot은 명확한 요구사항만으로도 코드를 생성할 수 있습니다.
 
 **예시:**
-```text
-다음 텍스트를 중립, 부정, 긍정으로 분류하세요.
-
-텍스트: 휴가는 괜찮았어요.
-감정:
+```python
+# CSV 파일을 읽어서 데이터를 정렬하고 필터링하는 함수를 작성해주세요
+# - pandas를 사용합니다
+# - age가 30 이상인 데이터만 필터링합니다
+# - name 컬럼 기준으로 오름차순 정렬합니다
 ```
 
-**출력:**
-```text
-중립
+**Copilot이 생성하는 코드:**
+```python
+import pandas as pd
+
+def process_csv_data(file_path: str) -> pd.DataFrame:
+    """
+    CSV 파일을 읽어 필터링 및 정렬을 수행합니다.
+    
+    Args:
+        file_path: CSV 파일 경로
+        
+    Returns:
+        처리된 DataFrame
+    """
+    df = pd.read_csv(file_path)
+    filtered_df = df[df['age'] >= 30]
+    sorted_df = filtered_df.sort_values('name', ascending=True)
+    return sorted_df
 ```
 
 **장점:**
@@ -96,20 +111,43 @@ Zero-shot 프롬프팅은 모델에게 예시를 제공하지 않고 직접 작�
 
 ### 2. Few-shot Prompting (퓨샷 프롬프팅)
 
-Few-shot 프롬프팅은 모델에게 몇 가지 예시를 제공하여 원하는 작업을 학습시키는 방법입니다. 이는 in-context learning을 활용하여 모델의 성능을 향상시킵니다.
+Few-shot 프롬프팅은 모델에게 몇 가지 예시를 제공하여 원하는 패턴을 학습시키는 방법입니다. GitHub Copilot에서 특정 코드 스타일이나 패턴을 따르게 할 때 효과적입니다.
+
+:::tip 실전 팁 
+- 특정 코드 예시를 chat 에 추가해도 되지만 특정 파일을 지정하여 그 파일의 함수 이름을 예시로 사용가능
+:::
 
 **예시:**
-```text
-"whatpu"는 탄자니아에 서식하는 작고 털이 많은 동물입니다. 
-whatpu를 사용한 문장의 예: 우리는 아프리카를 여행하다가 매우 귀여운 whatpu들을 보았습니다.
+```python
+# 다음 패턴을 따라 새로운 API 엔드포인트를 작성해주세요
 
-"farduddle"은 매우 빠르게 위아래로 점프하는 것을 의미합니다. 
-farduddle을 사용한 문장의 예:
+# 예시 1: 사용자 조회
+@app.get("/api/users/{user_id}")
+async def get_user(user_id: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
+
+# 예시 2: 게시글 조회
+@app.get("/api/posts/{post_id}")
+async def get_post(post_id: str, db: Session = Depends(get_db)):
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    return post
+
+# 이제 댓글 조회 엔드포인트를 같은 패턴으로 작성해주세요
 ```
 
-**출력:**
-```text
-우리가 게임에서 이겼을 때, 우리 모두 기뻐서 farduddle하기 시작했습니다.
+**Copilot이 생성하는 코드:**
+```python
+@app.get("/api/comments/{comment_id}")
+async def get_comment(comment_id: str, db: Session = Depends(get_db)):
+    comment = db.query(Comment).filter(Comment.id == comment_id).first()
+    if not comment:
+        raise HTTPException(status_code=404, detail="Comment not found")
+    return comment
 ```
 
 **효과적인 Few-shot 팁:**
@@ -125,30 +163,88 @@ farduddle을 사용한 문장의 예:
 
 ### 3. Chain-of-Thought Prompting (사고 과정 프롬프팅)
 
-Chain-of-Thought (CoT) 프롬프팅은 모델이 중간 추론 단계를 거쳐 복잡한 문제를 해결하도록 유도하는 기법입니다. 이는 산술, 상식 추론, 기호 추론 등의 복잡한 작업에 특히 효과적입니다.
+Chain-of-Thought (CoT) 프롬프팅은 모델이 중간 추론 단계를 거쳐 복잡한 문제를 해결하도록 유도하는 기법입니다. 코드 작성 시 구현 로직을 단계별로 설명하면 더 정확한 코드를 얻을 수 있습니다.
+
+:::tip 실전 팁 
+- vscode 에서는 Plan 으로 계획을 리뷰하여 프롬프트를 조정할 수 있습니다.
+:::
 
 **표준 프롬프팅 vs CoT 프롬프팅 비교:**
 
-```text
-Q: 이 그룹의 홀수를 모두 더하면 짝수가 됩니다: 4, 8, 9, 15, 12, 2, 1.
-A: 25. 답은 거짓입니다.
-
-Q: 이 그룹의 홀수를 모두 더하면 짝수가 됩니다: 17, 10, 19, 4, 8, 12, 24.
-A: 36. 답은 참입니다.
-
-Q: 이 그룹의 홀수를 모두 더하면 짝수가 됩니다: 16, 11, 14, 4, 8, 13, 24.
-A: 24. 답은 참입니다.
-
-Q: 이 그룹의 홀수를 모두 더하면 짝수가 됩니다: 17, 9, 10, 12, 13, 4, 2.
-A: 39. 답은 거짓입니다.
-
-Q: 이 그룹의 홀수를 모두 더하면 짝수가 됩니다: 15, 32, 5, 13, 82, 7, 1.
-A:
+**❌ 표준 프롬프팅 (모호함):**
+```python
+# 사용자 등록 함수를 작성해주세요
 ```
 
-**출력:**
-```text
-모든 홀수(15, 5, 13, 7, 1)를 더하면 41입니다. 답은 거짓입니다.
+**✅ CoT 프롬프팅 (단계별 설명):**
+```python
+# 사용자 등록 함수를 다음 단계로 구현해주세요:
+# 1. 이메일 형식이 유효한지 검증합니다
+# 2. 비밀번호 강도를 확인합니다 (최소 8자, 대소문자, 숫자, 특수문자 포함)
+# 3. 이메일 중복 여부를 데이터베이스에서 확인합니다
+# 4. 비밀번호를 bcrypt로 해싱합니다
+# 5. 새 사용자를 데이터베이스에 저장합니다
+# 6. 환영 이메일을 발송합니다
+# 7. 생성된 사용자 객체를 반환합니다
+```
+
+**Copilot이 생성하는 코드:**
+```python
+import re
+import bcrypt
+from typing import Optional
+from sqlalchemy.orm import Session
+from email_validator import validate_email, EmailNotValidError
+
+class UserRegistrationError(Exception):
+    pass
+
+def register_user(email: str, password: str, db: Session) -> User:
+    """
+    새로운 사용자를 등록합니다.
+    """
+    # 1. 이메일 형식 검증
+    try:
+        validate_email(email)
+    except EmailNotValidError:
+        raise UserRegistrationError("유효하지 않은 이메일 형식입니다")
+    
+    # 2. 비밀번호 강도 확인
+    if len(password) < 8:
+        raise UserRegistrationError("비밀번호는 최소 8자 이상이어야 합니다")
+    if not re.search(r'[A-Z]', password):
+        raise UserRegistrationError("비밀번호에 대문자가 포함되어야 합니다")
+    if not re.search(r'[a-z]', password):
+        raise UserRegistrationError("비밀번호에 소문자가 포함되어야 합니다")
+    if not re.search(r'[0-9]', password):
+        raise UserRegistrationError("비밀번호에 숫자가 포함되어야 합니다")
+    if not re.search(r'[!@#$%^&*]', password):
+        raise UserRegistrationError("비밀번호에 특수문자가 포함되어야 합니다")
+    
+    # 3. 이메일 중복 확인
+    existing_user = db.query(User).filter(User.email == email).first()
+    if existing_user:
+        raise UserRegistrationError("이미 등록된 이메일입니다")
+    
+    # 4. 비밀번호 해싱
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+    
+    # 5. 사용자 저장
+    new_user = User(
+        email=email,
+        password_hash=hashed_password.decode('utf-8'),
+        is_active=True
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    
+    # 6. 환영 이메일 발송
+    send_welcome_email(email)
+    
+    # 7. 사용자 반환
+    return new_user
 ```
 
 **장점:**
@@ -158,24 +254,57 @@ A:
 
 ### 4. Zero-shot CoT
 
-Zero-shot CoT는 단순히 "**단계별로 생각해봅시다 (Let's think step by step)**"라는 문구를 추가하는 것만으로 모델이 추론 체인을 생성하도록 유도합니다.
+Zero-shot CoT는 단순히 "**단계별로 생각해봅시다**" 또는 "**단계별로 구현해주세요**"라는 문구를 추가하는 것만으로 모델이 체계적인 접근을 하도록 유도합니다.
 
 **예시:**
-```text
-시장에 가서 사과 10개를 샀습니다. 
-이웃에게 2개, 수리공에게 2개를 주었습니다.
-그 후 5개를 더 사서 1개를 먹었습니다.
-몇 개가 남았습니까?
+```python
+# 다음 함수의 버그를 찾아 수정해주세요
+# 단계별로 분석하고 설명해주세요
 
-단계별로 생각해봅시다.
+def calculate_discount(price, discount_percent):
+    discount = price * discount_percent
+    final_price = price - discount
+    return final_price
+
+# 문제: calculate_discount(100, 20)을 호출하면 -1900이 반환됩니다
 ```
 
-**출력:**
-```text
-먼저, 10개의 사과로 시작했습니다.
-이웃에게 2개, 수리공에게 2개를 주어서 6개가 남았습니다.
-그 후 5개를 더 사서 11개가 되었습니다.
-마지막으로 1개를 먹어서 10개가 남았습니다.
+**Copilot의 단계별 분석 및 수정:**
+```python
+# 단계별 분석:
+# 1. 현재 코드: discount = price * discount_percent
+#    - 100 * 20 = 2000이 계산됩니다
+# 2. final_price = 100 - 2000 = -1900 (잘못된 결과)
+# 3. 문제: discount_percent를 퍼센트가 아닌 정수로 계산함
+# 4. 해결: discount_percent를 100으로 나눠서 비율로 변환해야 함
+
+def calculate_discount(price: float, discount_percent: float) -> float:
+    """
+    가격에 할인율을 적용합니다.
+    
+    Args:
+        price: 원래 가격
+        discount_percent: 할인율 (예: 20은 20%를 의미)
+        
+    Returns:
+        할인이 적용된 최종 가격
+        
+    Examples:
+        >>> calculate_discount(100, 20)
+        80.0
+        >>> calculate_discount(150, 10)
+        135.0
+    """
+    # 1. 할인율을 소수로 변환 (20% -> 0.2)
+    discount_rate = discount_percent / 100
+    
+    # 2. 할인 금액 계산
+    discount_amount = price * discount_rate
+    
+    # 3. 최종 가격 계산
+    final_price = price - discount_amount
+    
+    return final_price
 ```
 
 **적용 시점:**
@@ -189,14 +318,128 @@ Zero-shot CoT는 단순히 "**단계별로 생각해봅시다 (Let's think step 
 
 ### 6. Generated Knowledge Prompting (지식 생성 프롬프팅)
 
-답변하기 전에 관련 지식을 먼저 생성하도록 요청하는 방법입니다.
+코드를 작성하기 전에 관련 베스트 프랙티스나 설계 패턴을 먼저 생성하도록 요청하는 방법입니다.
 
 **예시:**
-```text
-주제에 대한 배경 지식을 먼저 생성하고, 그 지식을 활용하여 질문에 답변하세요.
+```python
+# 먼저 Python에서 API 에러 처리의 베스트 프랙티스를 설명하고,
+# 그 원칙에 따라 REST API 클라이언트 클래스를 구현해주세요
+#
+# 고려사항:
+# - 재시도 로직
+# - 타임아웃 처리
+# - 적절한 예외 계층 구조
+# - 로깅
+```
 
-주제: 기후 변화
-질문: 기후 변화가 해양 생태계에 미치는 영향은?
+**Copilot의 응답:**
+```python
+"""
+API 에러 처리 베스트 프랙티스:
+1. 명확한 예외 계층 구조 정의
+2. 재시도 가능한 에러와 불가능한 에러 구분
+3. 지수 백오프로 재시도 구현
+4. 적절한 타임아웃 설정
+5. 구조화된 로깅
+"""
+
+import requests
+import time
+import logging
+from typing import Optional, Dict, Any
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
+logger = logging.getLogger(__name__)
+
+# 예외 계층 구조
+class APIError(Exception):
+    """API 호출 기본 예외"""
+    pass
+
+class APIConnectionError(APIError):
+    """연결 실패"""
+    pass
+
+class APITimeoutError(APIError):
+    """타임아웃"""
+    pass
+
+class APIResponseError(APIError):
+    """잘못된 응답"""
+    def __init__(self, status_code: int, message: str):
+        self.status_code = status_code
+        super().__init__(f"HTTP {status_code}: {message}")
+
+class APIClient:
+    def __init__(self, base_url: str, timeout: int = 30):
+        self.base_url = base_url
+        self.timeout = timeout
+        self.session = self._create_session()
+    
+    def _create_session(self) -> requests.Session:
+        """재시도 로직이 포함된 세션 생성"""
+        session = requests.Session()
+        
+        # 재시도 전략 설정
+        retry_strategy = Retry(
+            total=3,
+            backoff_factor=1,  # 1, 2, 4초로 지수 증가
+            status_forcelist=[429, 500, 502, 503, 504],
+            allowed_methods=["GET", "POST", "PUT", "DELETE"]
+        )
+        
+        adapter = HTTPAdapter(max_retries=retry_strategy)
+        session.mount("http://", adapter)
+        session.mount("https://", adapter)
+        
+        return session
+    
+    def request(
+        self,
+        method: str,
+        endpoint: str,
+        **kwargs
+    ) -> Dict[str, Any]:
+        """
+        API 요청 실행
+        """
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+        
+        try:
+            logger.info(f"{method} {url}")
+            
+            response = self.session.request(
+                method=method,
+                url=url,
+                timeout=self.timeout,
+                **kwargs
+            )
+            
+            # HTTP 에러 확인
+            if response.status_code >= 400:
+                logger.error(
+                    f"API error: {response.status_code} - {response.text}"
+                )
+                raise APIResponseError(
+                    response.status_code,
+                    response.text
+                )
+            
+            logger.info(f"Success: {response.status_code}")
+            return response.json()
+            
+        except requests.exceptions.Timeout as e:
+            logger.error(f"Timeout: {e}")
+            raise APITimeoutError(f"Request timed out: {e}")
+            
+        except requests.exceptions.ConnectionError as e:
+            logger.error(f"Connection error: {e}")
+            raise APIConnectionError(f"Connection failed: {e}")
+            
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Request failed: {e}")
+            raise APIError(f"Request failed: {e}")
 ```
 
 ## GitHub Copilot에서의 실전 활용

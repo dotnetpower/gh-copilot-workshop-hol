@@ -1,114 +1,215 @@
-# ⚙️ Github Copilot Workshop 한국어 버전
+# ⚙️ GitHub Copilot Workshop 한국어 버전
 
-Github Copilot의 기능을 단계별로 학습할 수 있는 워크숍입니다.
+[![GitHub License](https://img.shields.io/github/license/dotnetpower/gh-copilot-workshop-hol)](LICENSE)
+[![GitHub Issues](https://img.shields.io/github/issues/dotnetpower/gh-copilot-workshop-hol)](https://github.com/dotnetpower/gh-copilot-workshop-hol/issues)
+[![Last Commit](https://img.shields.io/github/last-commit/dotnetpower/gh-copilot-workshop-hol)](https://github.com/dotnetpower/gh-copilot-workshop-hol/commits/main)
+[![GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://dotnetpower.github.io/gh-copilot-workshop-hol/)
 
-[view on moaw.dev](https://moaw.dev/workshop/gh:dotnetpower/gh-copilot-workshop-hol/main/docs/?step=0)
+> GitHub Copilot의 기본부터 고급 기능까지, 실전 프로젝트를 통해 완벽하게 마스터하는 종합 워크숍
 
-[view on docusaurus](https://dotnetpower.github.io/gh-copilot-workshop-hol/)
+## 📖 워크숍 소개
 
+이 워크숍은 GitHub Copilot을 처음 접하는 개발자부터 실무에서 고급 기능을 활용하고자 하는 전문가까지, 모든 수준의 개발자를 위한 체계적인 학습 자료입니다. 단계별 가이드와 실습 랩을 통해 AI 페어 프로그래밍의 혁신을 직접 경험해보세요.
 
-# Agenda (Detailed TODO)
+### 🎯 학습 목표
 
-## 1. GitHub Copilot 기본 기능 마스터하기
-- [x] GitHub Copilot 소개 및 설치 _(01-introduction.md)_
-  - [x] VS Code에 GitHub Copilot 확장 설치하기
-  - [x] 라이선스 활성화 및 인증 완료하기
-- [x] 코드 자동 완성 기능 활용 _(04-basic-usage.md)_
-  - [x] 단일 라인 코드 완성 실습 _(lab1-code-completion.md)_
-  - [x] 멀티 라인 코드 블록 생성 실습
-  - [x] 함수/메서드 자동 생성 실습
-- [x] 주석 기반 코드 생성
-  - [x] 자연어 주석으로 함수 구현하기
-  - [x] TODO 주석을 실제 코드로 변환하기
-- [x] Copilot Chat 활용법 _(06-copilot-modes.md)_
-  - [x] 인라인 채팅으로 코드 설명 듣기 _(lab2-chat-quality.md)_
-  - [x] 사이드바 채팅으로 문제 해결하기
-  - [x] 슬래시 명령어(/explain, /fix, /tests) 사용하기
+- GitHub Copilot의 핵심 기능과 활용법 완벽 이해
+- 효과적인 프롬프트 엔지니어링으로 코드 생성 품질 향상
+- 실전 프로젝트를 통한 실무 적용 능력 배양
+- 코딩 에이전트와 고급 기능으로 생산성 극대화
+- 엔터프라이즈급 코드 품질 및 보안 유지
 
-## 2. GitHub Copilot 엔지니어링 프랙티스
-- [x] 효과적인 프롬프트 작성법 _(10-understanding-prompt.md)_
-  - [x] 명확한 함수명과 변수명 사용하기
-  - [x] 구체적인 주석으로 의도 전달하기
-  - [x] 컨텍스트 제공을 위한 파일 구조 최적화
-- [x] 코드 품질 유지하기 _(11-copilot-engineering-practices.md)_
-  - [x] Copilot 제안 코드 리뷰 및 검증
-  - [x] 보안 취약점 확인 및 수정
-  - [x] 코딩 스타일 가이드 준수하기
-- [x] 생산성 향상 팁
-  - [x] 키보드 단축키 마스터하기
-  - [x] 여러 제안 중 최적의 코드 선택하기
-  - [x] 반복 작업 자동화하기
+### 🚀 빠른 시작
 
-## 3. 사용자 정의 GitHub Copilot 구성
-- [x] 개인 설정 커스터마이징 _(12-custom-configuration.md)_
-  - [x] Copilot 제안 활성화/비활성화 설정
-  - [x] 언어별 설정 구성하기
-  - [x] 특정 파일 패턴 제외하기
-- [x] 조직/팀 정책 설정
-  - [x] Enterprise 설정 이해하기
-  - [x] 코드 제안 필터링 규칙 설정
-  - [x] 사용 현황 모니터링 및 분석
-- [x] GitHub Copilot Extensions 활용
-  - [x] 사용 가능한 확장 프로그램 탐색
-  - [x] 맞춤형 확장 설치 및 구성
+#### 워크숍 문서 보기
 
-## 4. GitHub Copilot Spaces 실전 활용
-- [x] **Vibe 코딩 실전** _(14-vibe-coding.md)_
-  - [x] Spaces 환경 설정 및 시작하기
-  - [x] 자연어로 프로젝트 구조 설계하기
-  - [x] AI와 페어 프로그래밍하며 앱 개발하기
-  - [x] 실시간 디버깅 및 문제 해결
-- [x] **코드 리팩토링** _(15-code-refactoring-deep.md)_
-  - [x] 레거시 코드 분석 및 이해하기
-  - [x] Copilot으로 클린 코드 변환하기
-  - [x] 디자인 패턴 적용 및 개선
-  - [x] 성능 최적화 제안 받기
-- [x] **CI/CD 자동화** _(16-cicd-automation.md)_
-  - [x] GitHub Actions 워크플로우 생성
-  - [x] 테스트 자동화 파이프라인 구축
-  - [x] 배포 스크립트 자동 생성
-  - [x] 모니터링 및 알림 설정
+- **[MOAW 플랫폼에서 보기](https://moaw.dev/workshop/gh:dotnetpower/gh-copilot-workshop-hol/main/docs/?step=0)**
+- **[Docusaurus 사이트에서 보기](https://dotnetpower.github.io/gh-copilot-workshop-hol/)**
 
-## 5. 코딩 에이전트와 고급 활용
-- [x] GitHub Copilot Agent 이해하기 _(17-coding-agents.md, lab3-edit-agents.md)_
-  - [x] Agent 모드 활성화 및 사용법
-  - [x] 복잡한 작업 자동화하기
-  - [x] Multi-step 작업 처리하기
-- [x] 커스텀 에이전트 워크플로우 _(06-copilot-modes.md)_
-  - [x] 반복 작업 패턴 정의하기
-  - [x] 프로젝트별 에이전트 설정
-  - [x] 팀 협업을 위한 에이전트 공유
+#### 로컬 환경에서 실행
 
-## 6. 실전 프로젝트 실습
-- [x] **10분만에 나만의 GitHub.io 블로그 만들기** _(lab5-docusaurus-blog.md)_
-  - [x] Jekyll/Hugo/Docusaurus 템플릿 선택 및 커스터마이징
-  - [x] Copilot으로 블로그 포스트 작성하기
-  - [x] GitHub Pages 배포 자동화
-  - [x] SEO 최적화 및 애널리틱스 연동
-- [x] **미니 웹 애플리케이션 개발** _(09-real-project.md, lab4-advanced.md)_
-  - [x] 프로젝트 요구사항 정의
-  - [x] 프론트엔드 UI 자동 생성
-  - [x] 백엔드 API 구현
-  - [x] 데이터베이스 연동 및 테스트
-  - [x] 프로덕션 배포
-- [x] **오픈소스 기여하기** _(lab6-opensource-contribution.md)_
-  - [x] 이슈 찾기 및 분석
-  - [x] Copilot으로 패치 작성하기
-  - [x] Pull Request 생성 및 코드 리뷰
+```bash
+# 저장소 클론
+git clone https://github.com/dotnetpower/gh-copilot-workshop-hol.git
+cd gh-copilot-workshop-hol
 
-## 7. 마무리 및 Best Practices
-- [x] 학습 내용 복습 및 Q&A _(18-workshop-conclusion.md)_
-- [x] 실무 적용 전략 수립
-- [x] 지속적인 학습 리소스 안내
-- [x] 커뮤니티 참여 및 네트워킹
+# Docusaurus 사이트 실행
+cd docusaurus-site
+npm install
+npm start
+```
+
+### 📋 사전 준비사항
+
+- [Visual Studio Code](https://code.visualstudio.com/) 설치
+- [GitHub Copilot](https://github.com/features/copilot) 라이선스 (개인/조직)
+- GitHub Copilot 및 GitHub Copilot Chat 확장 설치
+- Python 3.12+ 또는 .NET 8.0+ (실습용)
+- 기본적인 프로그래밍 지식
+### 📋 사전 준비사항
+
+- [Visual Studio Code](https://code.visualstudio.com/) 설치
+- [GitHub Copilot](https://github.com/features/copilot) 라이선스 (개인/조직)
+- GitHub Copilot 및 GitHub Copilot Chat 확장 설치
+- Python 3.12+ 또는 .NET 8.0+ (실습용)
+- 기본적인 프로그래밍 지식
 
 ---
 
-## 📚 추가 작성된 문서
-- [x] GitHub Copilot 기능 소개 _(02-features.md)_
-- [x] AI 모델 비교 _(03-ai-models.md)_
-- [x] Copilot의 한계점 _(05-limitations.md)_
-- [x] GitHub Copilot의 영향 _(07-impact.md)_
-- [x] 고급 기능 _(08-advanced-features.md)_
-- [x] Copilot Spaces 소개 _(13-copilot-spaces.md)_
+## 📚 워크숍 커리큘럼
+
+### 1️⃣ GitHub Copilot 기본 기능 이해하기
+
+**이론 학습**
+- [GitHub Copilot 소개 및 설치](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/introduction)
+- [주요 기능 살펴보기](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/features)
+- [AI 모델 이해하기](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/ai-models)
+- [기본 사용법](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/basic-usage)
+- [한계점 이해하기](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/limitations)
+- [Copilot 모드 활용](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/copilot-modes)
+- [개발 생산성 영향](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/impact)
+
+**실습 랩**
+- [Lab 1: 코드 자동 완성 실습](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/labs/lab1-code-completion)
+- [Lab 2: Chat 품질 향상 기법](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/labs/lab2-chat-quality)
+
+### 2️⃣ GitHub Copilot 엔지니어링 프랙티스
+
+**이론 학습**
+- [고급 기능 탐구](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/advanced-features)
+- [실전 프로젝트 적용](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/real-project)
+- [프롬프트 엔지니어링](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/understanding-prompt)
+- [코드 품질 유지 전략](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/copilot-engineering-practices)
+
+**실습 랩**
+- [Lab 3: Edit 모드와 Agent 활용](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/labs/lab3-edit-agents)
+
+### 3️⃣ 사용자 정의 및 고급 설정
+
+**이론 학습**
+- [커스텀 설정 구성](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/custom-configuration)
+- [Copilot Spaces 소개](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/copilot-spaces)
+
+### 4️⃣ 실전 활용 시나리오
+
+**이론 학습**
+- [Vibe 코딩 마스터하기](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/vibe-coding)
+- [딥 코드 리팩토링](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/code-refactoring-deep)
+- [CI/CD 파이프라인 자동화](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/cicd-automation)
+- [코딩 에이전트 활용법](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/coding-agents)
+
+**실습 랩**
+- [Lab 4: 고급 기능 종합 실습](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/labs/lab4-advanced)
+- [Lab 5: Docusaurus 블로그 구축](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/labs/lab5-docusaurus-blog)
+- [Lab 6: 오픈소스 기여하기](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/labs/lab6-opensource-contribution)
+
+### 5️⃣ 마무리
+
+- [워크숍 정리 및 다음 단계](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/steps/workshop-conclusion)
+
+---
+
+## 🎓 추천 학습 경로
+
+### 초급자 (3-4시간)
+```
+01-introduction → 02-features → 04-basic-usage → lab1-code-completion → 
+06-copilot-modes → lab2-chat-quality
+```
+
+### 중급자 (5-6시간)
+```
+초급자 경로 + 08-advanced-features → 10-understanding-prompt → 
+11-copilot-engineering-practices → lab3-edit-agents → lab4-advanced
+```
+
+### 고급자 (8-10시간)
+```
+전체 커리큘럼 + lab5-docusaurus-blog → 
+15-code-refactoring-deep → 16-cicd-automation → 
+17-coding-agents → lab6-opensource-contribution
+```
+
+---
+
+## 🌟 주요 특징
+
+- **체계적인 구성**: 기초부터 고급까지 단계별 학습 로드맵
+- **풍부한 실습**: 6개의 실전 랩으로 구성된 Hands-on 경험
+- **실무 중심**: 실제 프로젝트에 바로 적용 가능한 베스트 프랙티스
+- **한국어 지원**: 완벽한 한국어 번역과 현지화
+- **지속적인 업데이트**: 최신 GitHub Copilot 기능 반영
+
+---
+
+## 🛠️ 기술 스택
+
+- **문서화**: Docusaurus 3.x
+- **실습 언어**: Python 3.12+, .NET 8.0+
+- **컨테이너**: Docker, Kubernetes
+- **CI/CD**: GitHub Actions
+- **클라우드**: Azure (옵션)
+
+---
+
+## 📖 추가 리소스
+
+### Awesome 컬렉션
+- [Awesome Prompts](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/awesome/prompts) - 효과적인 프롬프트 예제 모음
+- [Awesome Skills](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/awesome/skills) - Copilot 활용 스킬 가이드
+- [Awesome Instructions](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/awesome/instructions) - 커스텀 인스트럭션 예제
+- [Awesome Agents](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/awesome/agents) - 코딩 에이전트 활용법
+- [Awesome Collections](https://dotnetpower.github.io/gh-copilot-workshop-hol/docs/awesome/collections) - 유용한 리소스 모음
+
+### 공식 문서
+- [GitHub Copilot 공식 문서](https://docs.github.com/en/copilot)
+- [GitHub Copilot 블로그](https://github.blog/tag/github-copilot/)
+- [VS Code 문서](https://code.visualstudio.com/docs)
+
+---
+
+## 🤝 기여하기
+
+워크숍 개선에 기여하고 싶으신가요? 환영합니다!
+
+1. 이 저장소를 Fork하세요
+2. 기능 브랜치를 생성하세요 (`git checkout -b feature/amazing-feature`)
+3. 변경사항을 커밋하세요 (`git commit -m 'Add some amazing feature'`)
+4. 브랜치에 Push하세요 (`git push origin feature/amazing-feature`)
+5. Pull Request를 생성하세요
+
+자세한 내용은 [CONTRIBUTING.md](CONTRIBUTING.md)를 참조하세요.
+
+### 기여자 지침
+
+- 새로운 콘텐츠는 명확하고 실용적이어야 합니다
+- 코드 예제는 [copilot-instructions.md](.github/copilot-instructions.md)의 표준을 따라야 합니다
+- 모든 PR은 리뷰 과정을 거칩니다
+- 이슈를 먼저 열어 변경사항을 논의하세요
+
+---
+
+## 📄 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+
+---
+
+## 💬 커뮤니티 및 지원
+
+- **이슈 리포팅**: [GitHub Issues](https://github.com/dotnetpower/gh-copilot-workshop-hol/issues)
+- **토론**: [GitHub Discussions](https://github.com/dotnetpower/gh-copilot-workshop-hol/discussions)
+- **보안 이슈**: [SECURITY.md](SECURITY.md) 참조
+- **행동 강령**: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+
+---
+
+## 📊 프로젝트 상태
+
+- ✅ 모든 핵심 문서 작성 완료
+- ✅ 6개 실습 랩 제공
+- ✅ Docusaurus 사이트 배포
+- ✅ GitHub Pages 호스팅
+- 🔄 지속적인 업데이트 및 개선
+
 
