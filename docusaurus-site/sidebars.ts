@@ -89,6 +89,7 @@ const sidebars: SidebarsConfig = {
         'labs/lab3-edit-agents',
         'labs/lab4-advanced',
         'labs/lab5-docusaurus-blog',
+        'labs/lab6-autogen-group-chat',
       ],
     },
     {
