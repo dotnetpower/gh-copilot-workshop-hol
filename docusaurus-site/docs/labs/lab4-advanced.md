@@ -78,17 +78,195 @@ metrics = CopilotMetrics()
 - **코드 리뷰 통합**: Pull Request에서 Copilot 활용
 - **지식 베이스 구축**: 프로젝트별 베스트 프랙티스 문서화
 
-### 4.6 Git 커밋 메시지 자동 생성
+### 4.6 Copilot Skills 활용하기
+
+GitHub Copilot Skills는 특정 작업을 위한 전문화된 지침을 제공하는 기능입니다. Skills를 통해 Copilot이 특정 도메인이나 작업에 최적화된 응답을 제공하도록 설정할 수 있습니다.
+
+#### 4.6.1 Skills란?
+
+Skills는 GitHub Copilot에게 특정 역할이나 전문 분야를 부여하는 구조화된 지침입니다.
+
+| 구분 | Skills | Prompts | Instructions |
+|------|--------|---------|--------------|
+| **범위** | 완전한 워크플로우 | 단일 작업 | 지속적인 가이드 |
+| **구성** | 단일 파일 (frontmatter 포함) | 단일 파일 | 단일 파일 |
+| **사용 방식** | `@skill-name`으로 명시적 호출 | `/prompt-name`으로 실행 | 자동 적용 |
+| **위치** | `.github/skills/` | `.github/prompts/` | `.github/copilot-instructions.md` |
+
+#### 4.6.2 VS Code에서 Skills 활성화하기
+
+**1단계: VS Code 설정 확인**
+
+`settings.json`에서 다음 설정이 활성화되어 있는지 확인합니다:
+
+```json
+{
+    // Skills 파일 사용 활성화
+    "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+    
+    // Chat에서 Skills 참조 허용
+    "chat.promptFiles": true
+}
+```
+
+**2단계: Skills 폴더 구조 생성**
+
+프로젝트 루트에 `.github/skills/` 디렉토리를 생성합니다:
+
+```bash
+mkdir -p .github/skills
+```
+
+**3단계: Skill 파일 작성**
+
+`.github/skills/` 폴더에 `skill-name.md` 형식으로 파일을 생성합니다.
+
+#### 4.6.3 Skill 파일 구조
+
+Skill 파일은 YAML frontmatter와 지침 본문으로 구성됩니다:
+
+```markdown
+---
+name: skill-name
+description: 스킬에 대한 간단한 설명
+tools: ["read", "search", "edit"]
+---
+
+# 스킬 지침 내용
+
+여기에 Copilot이 따라야 할 상세 지침을 작성합니다.
+
+## 주요 책임
+- 책임 1
+- 책임 2
+
+## 가이드라인
+- 규칙 1
+- 규칙 2
+```
+
+**Frontmatter 속성 설명:**
+- `name`: 스킬 호출 시 사용할 이름
+- `description`: 스킬의 목적과 기능 설명
+- `tools`: 스킬이 사용할 수 있는 도구 목록 (read, search, edit 등)
+
+#### 4.6.4 실습: 코드 정리 스킬 만들기
+
+**cleanup-specialist.md 예제:**
+
+```markdown
+---
+name: cleanup-specialist
+description: 지저분한 코드를 정리하고 중복을 제거하며 유지보수성을 개선합니다
+tools: ["read", "search", "edit"]
+---
+
+당신은 코드베이스를 더 깔끔하고 유지보수하기 쉽게 만드는 정리 전문가입니다.
+
+## 정리 책임 사항
+
+**코드 정리:**
+- 사용하지 않는 변수, 함수, import 및 죽은 코드 제거
+- 지나치게 복잡한 로직과 중첩 구조 단순화
+- 일관된 포맷팅 및 네이밍 규칙 적용
+
+**중복 제거:**
+- 중복 코드를 찾아 재사용 가능한 함수로 통합
+- 여러 파일에 걸친 반복 패턴을 식별하고 공통 유틸리티 추출
+
+## 가이드라인
+- 정리 전후에 항상 변경 사항 테스트
+- 한 번에 하나의 개선 사항에 집중
+- 기존 기능이 손상되지 않도록 주의
+```
+
+#### 4.6.5 Skill 사용 방법
+
+**Chat에서 직접 호출:**
+```
+@cleanup-specialist 이 파일의 중복 코드를 제거해줘
+```
+
+**특정 파일 지정:**
+```
+@cleanup-specialist src/utils.py 파일을 정리해줘
+```
+
+**디렉토리 전체 대상:**
+```
+@cleanup-specialist src/ 디렉토리의 사용하지 않는 import를 정리해줘
+```
+
+#### 4.6.6 현재 워크스페이스에 적용된 Skills 예시
+
+이 워크숍 프로젝트에는 다음과 같은 Skills가 설정되어 있습니다:
+
+**📁 `.github/skills/cleanup-specialist.md`** (영어 버전)
+```markdown
+---
+name: cleanup-specialist
+description: Cleans up messy code, removes duplication, and improves maintainability
+tools: ["read", "search", "edit"]
+---
+
+You are a cleanup specialist focused on making codebases cleaner...
+```
+
+**📁 `.github/skills/cleanup-specialist-kr.md`** (한국어 버전)
+```markdown
+---
+name: cleanup-specialist-kr
+description: 지저분한 코드를 정리하고 중복을 제거하며 유지보수성을 개선합니다
+tools: ["read", "search", "edit"]
+---
+
+당신은 코드베이스를 더 깔끔하고 유지보수하기 쉽게 만드는 정리 전문가입니다...
+```
+
+**📁 `.github/copilot-instructions.md`에 정의된 스킬 사용 규칙:**
+```markdown
+### 5. 스킬 사용 규칙
+
+**코드 정리 작업 시 필수:**
+- 코드 정리, 리팩토링, 중복 제거 요청 시 `@cleanup-specialist` 또는 
+  `@cleanup-specialist-kr` 스킬을 사용해야 함
+- 사용하지 않는 import, 변수, 함수 제거 시 해당 스킬 적용
+- 코드 품질 개선 및 유지보수성 향상 작업에 자동으로 스킬 적용
+
+**스킬 사용 예시:**
+사용자: "이 파일의 중복 코드를 제거해줘"
+→ 자동으로 @cleanup-specialist-kr 스킬 적용
+```
+
+#### 4.6.7 유용한 Skills 아이디어
+
+| 스킬 이름 | 용도 |
+|----------|------|
+| `api-developer` | REST/GraphQL API 개발 전문 |
+| `test-writer` | 단위/통합 테스트 작성 전문 |
+| `security-reviewer` | 보안 취약점 검토 전문 |
+| `docs-writer` | 문서화 및 주석 작성 전문 |
+| `performance-optimizer` | 성능 최적화 전문 |
+| `accessibility-expert` | 접근성 개선 전문 |
+
+:::tip 💡 Skills 활용 팁
+- **명확한 범위 설정**: 하나의 스킬은 하나의 전문 분야에 집중하세요
+- **구체적인 지침**: 모호한 표현보다 구체적인 규칙을 작성하세요
+- **팀 공유**: 팀원들과 유용한 스킬을 공유하여 일관된 코드 품질을 유지하세요
+- **점진적 개선**: 사용하면서 지침을 지속적으로 개선하세요
+:::
+
+### 4.7 Git 커밋 메시지 자동 생성
 
 GitHub Copilot은 변경된 코드를 분석하여 의미 있는 커밋 메시지를 자동으로 생성할 수 있습니다.
 
-#### 4.6.1 기본 사용법
+#### 4.7.1 기본 사용법
 1. 소스 제어(Source Control) 패널 열기 (`Ctrl + Shift + G`)
 2. 변경사항이 있는 상태에서 커밋 메시지 입력창의 **✨ 아이콘(Sparkle)** 클릭
 3. Copilot이 자동으로 커밋 메시지 생성
 
 
-#### 4.6.2 커밋 메시지 생성 설정
+#### 4.7.2 커밋 메시지 생성 설정
 `.vscode/settings.json` 파일에서 커밋 메시지 생성을 커스터마이징할 수 있습니다:
 
 ```json
@@ -108,7 +286,7 @@ GitHub Copilot은 변경된 코드를 분석하여 의미 있는 커밋 메시�
 }
 ```
 
-#### 4.6.3 커밋 메시지 커스터마이징 옵션
+#### 4.7.3 커밋 메시지 커스터마이징 옵션
 
 **기본 형식 (Conventional Commits 스타일):**
 ```json
@@ -143,7 +321,7 @@ GitHub Copilot은 변경된 코드를 분석하여 의미 있는 커밋 메시�
 }
 ```
 
-#### 4.6.4 실습 예시
+#### 4.7.4 실습 예시
 
 **변경 전 코드:**
 ```python
@@ -182,7 +360,7 @@ def calculate_total(items: List[Item]) -> float:
 - **컨텍스트 제공**: 복잡한 변경의 경우, 관련 파일들을 함께 변경하면 더 정확한 메시지를 생성합니다
 :::
 
-### 4.7 CI/CD 파이프라인 통합
+### 4.8 CI/CD 파이프라인 통합
 ```yaml
 # .github/workflows/copilot-security.yml
 name: Copilot Security Scan
@@ -200,12 +378,16 @@ jobs:
 1. 프로젝트별 커스텀 Instructions 설정하기
 2. Copilot을 활용한 보안 코드 리뷰 수행하기
 3. 팀 코딩 스타일 가이드 자동화하기
-4. **Git 커밋 메시지 자동 생성 설정 및 활용하기**
+4. **Copilot Skills 설정 및 활용하기**
+   - `.github/skills/` 폴더에 커스텀 스킬 파일 생성
+   - `@skill-name` 형식으로 스킬 호출하여 코드 정리 수행
+   - 팀에 유용한 스킬 아이디어 브레인스토밍 및 구현
+5. **Git 커밋 메시지 자동 생성 설정 및 활용하기**
    - `.vscode/settings.json`에 커밋 메시지 생성 규칙 추가
    - 여러 파일을 수정한 후 자동 생성된 커밋 메시지 확인
    - 팀 컨벤션에 맞게 instructions 커스터마이징
-5. CI/CD 파이프라인에 Copilot 보안 스캔 통합하기
-6. Copilot 사용 성과 측정 및 분석하기
+6. CI/CD 파이프라인에 Copilot 보안 스캔 통합하기
+7. Copilot 사용 성과 측정 및 분석하기
 :::
 
 :::tip 🎯 고급 활용 팁
