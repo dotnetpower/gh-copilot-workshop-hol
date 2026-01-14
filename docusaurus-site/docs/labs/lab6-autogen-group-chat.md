@@ -6,6 +6,14 @@ description: Microsoft AutoGen을 사용하여 멀티 에이전트 그룹 채팅
 
 # 실습 6: AutoGen 멀티 에이전트 그룹챗 구현
 
+:::tip 📝 학습 목표
+- AutoGen Core API의 기본 개념 이해
+- 이벤트 기반 에이전트 시스템 구현
+- Topic과 Subscription을 통한 에이전트 간 통신
+- LLM 기반 에이전트 셀렉터 패턴 적용
+- 실제 동작하는 멀티 에이전트 애플리케이션 개발
+:::
+
 이번 실습에서는 **Microsoft AutoGen Core API**를 사용하여 여러 AI 에이전트가 협업하는 그룹 채팅 시스템을 직접 구현합니다. 작가, 편집자, 일러스트레이터 에이전트가 함께 동화책을 만드는 실전 프로젝트입니다.
 
 [원문 - Group Chat](https://microsoft.github.io/autogen/stable//user-guide/core-user-guide/design-patterns/group-chat.html)
@@ -13,13 +21,6 @@ description: Microsoft AutoGen을 사용하여 멀티 에이전트 그룹 채팅
 결과 예시:
 ![alt text](/img/labs/autogen_result.png)
 
-## 학습 목표
-
-- AutoGen Core API의 기본 개념 이해
-- 이벤트 기반 에이전트 시스템 구현
-- Topic과 Subscription을 통한 에이전트 간 통신
-- LLM 기반 에이전트 셀렉터 패턴 적용
-- 실제 동작하는 멀티 에이전트 애플리케이션 개발
 
 ## 사전 준비사항
 

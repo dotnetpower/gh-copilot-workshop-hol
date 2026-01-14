@@ -59,19 +59,245 @@ applyTo: "**"
 - **정책 관리**: 조직별 사용 정책 설정
 
 ### 4.4 성능 모니터링 및 최적화
+
+GitHub Copilot의 사용 성과를 측정하고 최적화하는 방법을 알아봅니다.
+
+#### 4.4.1 VS Code에서 Copilot 통계 확인하기
+
+**방법 1: GitHub Copilot 상태 바 사용**
+1. VS Code 하단 상태 바에서 GitHub Copilot 아이콘 클릭
+2. "GitHub Copilot Status" 선택
+3. 현재 세션의 통계 확인:
+   - Completions accepted (수락된 제안 수)
+   - Completions shown (표시된 제안 수)
+   - Acceptance rate (수락률)
+
+**방법 2: Copilot 설정에서 확인**
+1. `Ctrl + Shift + P` → "GitHub Copilot: View Usage"
+2. 일일/주간/월간 사용 통계 확인
+
+**방법 3: GitHub.com에서 확인 (Enterprise/Business)**
+1. GitHub.com → Settings → Copilot
+2. "Usage" 탭에서 조직/팀 전체 통계 확인
+3. API 활용 빈도, 수락률, 활성 사용자 수 등
+
+#### 4.4.2 주요 모니터링 지표 (KPI)
+
+| 지표 | 설명 | 목표 수치 |
+|------|------|----------|
+| **Acceptance Rate** | 제안 수락률 | 30% 이상 |
+| **Completions per Day** | 일일 제안 수 | 50+ |
+| **Time Saved** | 절약된 개발 시간 | 주당 2시간+ |
+| **Lines Generated** | 생성된 코드 라인 수 | 일일 100+ |
+| **Active Users** | 활성 사용자 비율 (팀) | 80% 이상 |
+
+#### 4.4.3 메트릭 데이터 수집 방법
+
+**개인 사용자 (수동 수집):**
+
+1. **VS Code 출력 패널에서 확인**
+   ```
+   Ctrl + Shift + P → "Output: Focus on Output View" → "GitHub Copilot" 선택
+   ```
+   - 여기서 실시간 제안 수락/거부 로그 확인 가능
+
+2. **Copilot 로그 파일 분석** (고급)
+   ```bash
+   # VS Code 로그 위치
+   # macOS/Linux: ~/.vscode/extensions/github.copilot-*/dist/
+   # Windows: %USERPROFILE%\.vscode\extensions\github.copilot-*\dist\
+   
+   # 텔레메트리 데이터는 GitHub에 전송되며 로컬에는 자세한 로그가 남지 않음
+   ```
+
+3. **개인 추적 시트 작성** (권장)
+   - 하루 종료 시 상태 바의 수치를 기록
+   - 스프레드시트나 Notion에 수동 입력
+   - 주간/월간 트렌드 분석
+
+**조직/팀 (GitHub Enterprise):**
+
+1. **GitHub Copilot Metrics API 사용** (Enterprise Cloud/Server 전용)
+   ```bash
+   # GitHub REST API로 조직 메트릭 조회
+   curl -H "Authorization: token YOUR_TOKEN" \
+        -H "Accept: application/vnd.github+json" \
+        https://api.github.com/orgs/YOUR_ORG/copilot/usage
+   ```
+
+2. **GitHub Copilot Dashboard 활용**
+   - GitHub.com → Organization Settings → Copilot → Usage
+   - 팀원별, 프로젝트별 사용 통계 확인
+   - CSV/JSON 형식으로 다운로드 가능
+
+3. **자동화된 데이터 수집 스크립트 예제**
+
+```python
+import requests
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import List, Dict
+import os
+
+@dataclass
+class TeamCopilotMetrics:
+    """GitHub API에서 수집한 팀 메트릭"""
+    date: str
+    total_suggestions: int
+    total_acceptances: int
+    total_lines_suggested: int
+    total_lines_accepted: int
+    total_active_users: int
+    
+    @property
+    def acceptance_rate(self) -> float:
+        if self.total_suggestions == 0:
+            return 0.0
+        return (self.total_acceptances / self.total_suggestions) * 100
+
+def fetch_copilot_metrics(org_name: str, token: str, days: int = 7) -> List[TeamCopilotMetrics]:
+    """
+    GitHub Copilot Metrics API를 통해 조직의 사용 데이터 수집
+    
+    필요 조건:
+    - GitHub Enterprise Cloud/Server 계정
+    - 'manage_billing:copilot' 권한이 있는 Personal Access Token
+    - 조직 관리자 권한
+    """
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28"
+    }
+    
+    # 최근 N일간의 데이터 조회
+    url = f"https://api.github.com/orgs/{org_name}/copilot/usage"
+    
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        
+        metrics = []
+        for day_data in data:
+            metrics.append(TeamCopilotMetrics(
+                date=day_data['day'],
+                total_suggestions=day_data['total_suggestions_count'],
+                total_acceptances=day_data['total_acceptances_count'],
+                total_lines_suggested=day_data['total_lines_suggested'],
+                total_lines_accepted=day_data['total_lines_accepted'],
+                total_active_users=day_data['total_active_users']
+            ))
+        
+        return metrics
+        
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 404:
+            print("⚠️  Copilot Metrics API는 GitHub Enterprise에서만 사용 가능합니다.")
+        elif e.response.status_code == 403:
+            print("⚠️  권한이 부족합니다. 조직 관리자 권한과 적절한 토큰이 필요합니다.")
+        else:
+            print(f"❌ API 오류: {e}")
+        return []
+
+# 사용 예시 (Enterprise 사용자만 가능)
+if __name__ == "__main__":
+    ORG_NAME = "your-org-name"
+    GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")  # 환경 변수에서 토큰 로드
+    
+    if GITHUB_TOKEN:
+        metrics = fetch_copilot_metrics(ORG_NAME, GITHUB_TOKEN, days=7)
+        
+        if metrics:
+            print("\n📊 최근 7일 Copilot 사용 현황\n")
+            for m in metrics:
+                print(f"📅 {m.date}")
+                print(f"   수락률: {m.acceptance_rate:.1f}%")
+                print(f"   활성 사용자: {m.total_active_users}명")
+                print(f"   생성 라인: {m.total_lines_accepted:,}줄")
+                print()
+    else:
+        print("⚠️  GITHUB_TOKEN 환경 변수가 설정되지 않았습니다.")
+```
+
+**개인 사용자를 위한 간단한 추적 방법:**
+
 ```python
 from dataclasses import dataclass
+from datetime import datetime
+import json
+from pathlib import Path
 
-# Copilot 사용 통계 분석
 @dataclass
-class CopilotMetrics:
-    acceptance_rate: float = 85.0    # 제안 수락률
-    times_saved: int = 120           # 절약된 시간 (분)
-    lines_generated: int = 2450      # 생성된 코드 라인 수
-    errors_reduced: int = 23         # 줄어든 버그 수
+class DailyMetrics:
+    """수동으로 입력하는 일일 메트릭"""
+    date: str
+    acceptance_rate: float
+    completions_accepted: int
+    completions_shown: int
+    notes: str = ""
+    
+    def save(self, filepath: str = "copilot_metrics.json"):
+        """JSON 파일에 저장"""
+        path = Path(filepath)
+        
+        # 기존 데이터 로드
+        if path.exists():
+            with open(path, 'r') as f:
+                data = json.load(f)
+        else:
+            data = []
+        
+        # 새 데이터 추가
+        data.append({
+            'date': self.date,
+            'acceptance_rate': self.acceptance_rate,
+            'completions_accepted': self.completions_accepted,
+            'completions_shown': self.completions_shown,
+            'notes': self.notes
+        })
+        
+        # 저장
+        with open(path, 'w') as f:
+            json.dump(data, f, indent=2)
+        
+        print(f"✅ {self.date} 메트릭 저장 완료")
 
-metrics = CopilotMetrics()
+# 사용법: 하루 종료 시 VS Code 상태 바 확인 후 수동 입력
+today = DailyMetrics(
+    date=datetime.now().strftime('%Y-%m-%d'),
+    acceptance_rate=45.5,  # VS Code 상태 바에서 확인
+    completions_accepted=89,
+    completions_shown=195,
+    notes="FastAPI 프로젝트 작업, 제안 품질 좋음"
+)
+today.save()
 ```
+
+:::warning ⚠️ 중요: 데이터 수집 제약사항
+- **개인 사용자**: VS Code 상태 바에서 **현재 세션**만 확인 가능 (VS Code 재시작 시 초기화)
+- **GitHub Copilot Individual**: API 접근 불가, 수동 기록만 가능
+- **GitHub Copilot Business/Enterprise**: Metrics API와 대시보드 사용 가능
+- GitHub는 텔레메트리 데이터를 수집하지만 개인 사용자에게 상세 로그를 제공하지 않음
+:::
+
+#### 4.4.4 최적화 팁
+
+**수락률이 낮을 때 (< 30%):**
+- 더 명확한 함수/변수명 사용
+- 주석으로 의도를 명확히 표현
+- 관련 파일들을 함께 열어 컨텍스트 제공
+- 프로젝트 코딩 스타일 가이드 작성 (`.github/copilot-instructions.md`)
+
+**제안이 적절하지 않을 때:**
+- `Ctrl + Enter`로 여러 대안 확인
+- 더 구체적인 주석 작성
+- 타입 힌트 추가 (Python, TypeScript)
+
+**팀 전체 생산성 향상:**
+- 팀 공통 Instructions 설정
+- 유용한 패턴을 Skills로 정의
+- 정기적인 사용 현황 리뷰 (주간/월간)
 
 ### 4.5 팀 협업 최적화
 - **공통 패턴 공유**: 팀의 코딩 패턴을 Copilot에 학습
