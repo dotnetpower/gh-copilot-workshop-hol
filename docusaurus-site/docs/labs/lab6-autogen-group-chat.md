@@ -1,10 +1,10 @@
 ---
 sidebar_position: 6
-title: 'Lab 6: AutoGen 멀티 에이전트 그룹챗 구현'
+title: '실습 6: AutoGen 멀티 에이전트 그룹챗 구현'
 description: Microsoft AutoGen을 사용하여 멀티 에이전트 그룹 채팅 시스템을 직접 구현하는 실습입니다.
 ---
 
-# Lab 6: AutoGen 멀티 에이전트 그룹챗 구현
+# 실습 6: AutoGen 멀티 에이전트 그룹챗 구현
 
 이번 실습에서는 **Microsoft AutoGen Core API**를 사용하여 여러 AI 에이전트가 협업하는 그룹 채팅 시스템을 직접 구현합니다. 작가, 편집자, 일러스트레이터 에이전트가 함께 동화책을 만드는 실전 프로젝트입니다.
 
@@ -116,6 +116,7 @@ autogen-ext         0.7.5
 
 **OpenAI API 키 설정:**
 
+
 ```bash
 # Windows (PowerShell)
 $env:OPENAI_API_KEY="your-api-key-here"
@@ -133,6 +134,10 @@ echo $env:OPENAI_API_KEY
 # Mac/Linux
 echo $OPENAI_API_KEY
 ```
+
+:::tip 팁
+`.env` 파일을 사용하여 환경 변수를 관리할 수도 있습니다. 
+:::
 
 ### 1.4 VS Code에서 프로젝트 열기
 
@@ -489,6 +494,10 @@ class IllustratorAgent(BaseGroupChatAgent):
 - 생성된 이미지는 base64로 받아서 PNG로 변환
 - Jupyter 환경에서는 inline 표시, 아니면 파일로 저장
 
+:::tip 팁
+위 코드는 OpenAI 제공 코드입니다. GitHub Copilot 활용하여 실제 이미지 생성을 스킵하도록 프롬프트를 한 후 정상 결과가 나오면 도전과제의 대안을 구현해야 합니다.
+:::
+
 ---
 
 ## Step 5: UserAgent 구현
@@ -812,7 +821,7 @@ python run_group_chat.py
 
 ### 8.1 실행 결과 확인
 
-프로그램이 실행되면 다음과 같은 출력을 볼 수 있습니다:
+(DALL-E 생략)프로그램이 실행되면 다음과 같은 출력을 볼 수 있습니다:
 
 ```
 ### Writer:
@@ -838,7 +847,7 @@ Enter your message (type 'APPROVE' to conclude):
 - 생성된 이미지는 현재 디렉토리에 PNG 파일로 저장됩니다
 - Jupyter Notebook에서 실행하면 이미지가 inline으로 표시됩니다
 
-### 8.2 Copilot으로 개선하기
+### 8.2 Copilot으로 개선하기(선택 사항)
 
 Copilot Chat에 다음과 같이 질문:
 
@@ -851,7 +860,7 @@ Copilot Chat에 다음과 같이 질문:
 3. 특정 키워드가 나오면 자동으로 특정 에이전트 호출
 ```
 
-### 8.3 대화 히스토리 저장 기능 추가
+### 8.3 대화 히스토리 저장 기능 추가(선택 사항)
 
 Copilot의 도움을 받아 다음 코드를 추가:
 
@@ -883,6 +892,9 @@ class ConversationLogger:
             json.dump(self.history, f, ensure_ascii=False, indent=2)
         print(f"\n💾 Conversation saved to {self.filename}")
 ```
+
+### 8.4 결과 파일 위치
+[결과 파일](https://github.com/dotnetpower/gh-copilot-workshop-hol/raw/refs/heads/main/playground/autogen-group-chat/autogen-group-chat.7z) 다운로드(암호 필요)
 
 ---
 
