@@ -21,6 +21,188 @@ description: Microsoft AutoGen을 사용하여 멀티 에이전트 그룹 채팅
 결과 예시:
 ![alt text](/img/labs/autogen_result.png)
 
+---
+
+## AutoGen 소개
+
+### AutoGen이란?
+
+**Microsoft AutoGen**은 대규모 언어 모델(LLM) 기반의 다중 에이전트 시스템을 구축하기 위한 오픈소스 프레임워크입니다. 복잡한 작업을 여러 AI 에이전트가 협업하여 해결할 수 있도록 설계되었으며, 각 에이전트는 특정 역할과 능력을 가지고 독립적으로 동작합니다.
+
+### 핵심 개념
+
+#### 1. 멀티 에이전트 시스템 (Multi-Agent System)
+
+AutoGen의 핵심은 **여러 에이전트가 협업**하는 것입니다. 단일 AI 모델로는 해결하기 어려운 복잡한 문제를 여러 전문 에이전트로 분산하여 처리합니다.
+
+**주요 특징:**
+- **역할 기반 설계**: 각 에이전트는 특정 역할(작가, 편집자, 개발자 등)을 수행
+- **이벤트 기반 통신**: 에이전트 간 메시지 교환을 통한 협업
+- **확장 가능성**: 필요에 따라 에이전트를 추가하거나 제거 가능
+- **자율성**: 각 에이전트는 독립적으로 판단하고 행동
+
+#### 2. 에이전트 아키텍처
+
+AutoGen 에이전트는 다음과 같은 구조로 동작합니다:
+
+```mermaid
+graph TB
+    subgraph Runtime["Agent Runtime"]
+        subgraph TopicSub["Topic & Subscription<br/>(메시지 라우팅)"]
+            Topic[Topic: group_chat]
+        end
+        
+        subgraph Agents["Agents"]
+            AgentA["Agent A<br/>━━━━━━<br/>LLM Client<br/>Tools"]
+            AgentB["Agent B<br/>━━━━━━<br/>LLM Client<br/>Tools"]
+            AgentC["Agent C<br/>━━━━━━<br/>LLM Client<br/>Tools"]
+        end
+        
+        Topic -.Subscribe.-> AgentA
+        Topic -.Subscribe.-> AgentB
+        Topic -.Subscribe.-> AgentC
+        
+        AgentA --Publish--> Topic
+        AgentB --Publish--> Topic
+        AgentC --Publish--> Topic
+    end
+    
+    style Runtime fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style TopicSub fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style Agents fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style Topic fill:#bbdefb,stroke:#1976d2,stroke-width:2px
+    style AgentA fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    style AgentB fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    style AgentC fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+```
+
+**구성 요소:**
+- **Agent Runtime**: 에이전트 실행 환경 및 메시지 라우팅
+- **Topic**: 메시지 채널 (예: "group_chat")
+- **Subscription**: 에이전트가 구독하는 메시지 타입
+- **Message Handler**: 메시지를 처리하는 에이전트 메서드
+- **LLM Client**: 언어 모델 API (GPT-4, Claude 등)
+- **Tools**: 에이전트가 사용할 수 있는 함수/도구
+
+#### 3. 통신 패턴
+
+AutoGen은 다양한 통신 패턴을 지원합니다:
+
+![AutoGen 패턴](/img/labs/autogen_patterns.png)
+
+**A1. 순차적 협업 (Sequential Collaboration)**
+- 학생 → 어시스턴트 → 전문가 순서로 문제 해결
+- 각 단계에서 전문성이 증가하는 구조
+
+**A2. 검색 증강 (Retrieval-Augmented)**
+- User Proxy가 외부 지식 베이스 검색
+- Assistant가 검색 결과를 활용하여 답변 생성
+
+**A3. 의사결정 체인 (Decision Chain)**
+- ALFWorld Executor가 실제 환경과 상호작용
+- Assistant와 Grounding Agent가 협력하여 가정 작업 수행
+
+**A4. 계층적 관리 (Hierarchical Management)**
+- Commander가 전체 작업 조율
+- Writer와 Safeguard가 병렬로 작업 수행
+
+**A5. 그룹 챗 (Group Chat)** ⭐ 이번 실습의 핵심
+- Manager가 다음 발언자 선택 (Selector 패턴)
+- 여러 에이전트가 동적으로 대화에 참여
+- Broadcast를 통한 메시지 공유
+
+**A6. 대화형 게임 (Conversational Game)**
+- Chess Board가 게임 상태 관리
+- 두 플레이어(Human/AI)가 턴제로 진행
+
+### AutoGen Core API vs AutoGen AgentChat
+
+AutoGen은 두 가지 주요 API 레벨을 제공합니다:
+
+| 구분 | AutoGen Core | AutoGen AgentChat |
+|------|--------------|-------------------|
+| **추상화 수준** | 저수준 (Low-level) | 고수준 (High-level) |
+| **유연성** | 높음 (완전한 제어) | 중간 (편의성 우선) |
+| **학습 곡선** | 가파름 | 완만함 |
+| **사용 사례** | 커스텀 에이전트 시스템 | 일반적인 챗봇/어시스턴트 |
+| **이번 실습** | ✅ Core API 사용 | |
+
+이번 실습에서는 **AutoGen Core API**를 사용하여 에이전트 시스템의 내부 동작 원리를 직접 구현하고 이해합니다.
+
+### 그룹 챗 패턴 상세 분석
+
+이번 실습에서 구현할 **그룹 챗 패턴**의 동작 방식:
+
+```mermaid
+sequenceDiagram
+    participant User as 👤 User
+    participant Manager as 🎯 GroupChatManager
+    participant LLM as 🤖 LLM Selector
+    participant Agent as 💡 Selected Agent
+    participant Topic as 📢 Group Chat Topic
+    participant Others as 👥 Other Agents
+
+    User->>Topic: 1. 초기 요청 전송 (GroupChatMessage)
+    Topic->>Manager: 2. 메시지 수신
+    Topic->>Others: 메시지 브로드캐스트
+    
+    Manager->>LLM: 3. 다음 발언자 선택 요청<br/>(대화 히스토리 + 에이전트 설명)
+    LLM-->>Manager: 선택된 에이전트 반환
+    
+    Manager->>Agent: 4. RequestToSpeak 전송
+    
+    Agent->>LLM: 5. 응답 생성 요청
+    LLM-->>Agent: 생성된 응답 반환
+    
+    Agent->>Topic: 6. GroupChatMessage Publish
+    Topic->>Manager: 7. 모든 구독자에게 전달
+    Topic->>Others: 메시지 브로드캐스트
+    
+    Note over Manager,Topic: 8. 종료 조건까지 2번으로 반복
+```
+
+**핵심 메커니즘:**
+
+1. **Topic/Subscription 패턴**
+   - 에이전트는 특정 Topic을 구독
+   - 메시지는 Topic에 발행되어 구독자 모두에게 전달
+   - 느슨한 결합(Loose Coupling)으로 확장성 확보
+
+2. **LLM 기반 셀렉터**
+   - 대화 히스토리와 에이전트 설명을 분석
+   - 컨텍스트에 가장 적합한 다음 발언자 선택
+   - 동적이고 지능적인 대화 흐름 생성
+
+3. **메시지 타입 구분**
+   - `GroupChatMessage`: 모든 에이전트가 공유하는 대화 내용
+   - `RequestToSpeak`: 특정 에이전트에게만 전달되는 발언 요청
+
+### AutoGen의 장점
+
+**1. 모듈화 및 재사용성**
+- 에이전트를 독립적인 모듈로 개발
+- 다른 프로젝트에서 에이전트 재사용 가능
+
+**2. 확장성**
+- 새로운 에이전트 추가가 용이
+- 시스템 구조 변경 없이 기능 확장
+
+**3. 테스트 가능성**
+- 각 에이전트를 개별적으로 테스트
+- Mock 에이전트로 통합 테스트 용이
+
+**4. 실세계 문제 해결**
+- 복잡한 워크플로우 자동화
+- 소프트웨어 개발, 데이터 분석, 콘텐츠 제작 등
+
+### 실제 활용 사례
+
+- **소프트웨어 개발**: 개발자, 리뷰어, 테스터 에이전트 협업
+- **콘텐츠 제작**: 작가, 편집자, 디자이너 에이전트 협업
+- **데이터 분석**: 데이터 수집, 분석, 시각화 에이전트 협업
+- **고객 지원**: 1차 응대, 전문가, 에스컬레이션 에이전트 협업
+
+---
 
 ## 사전 준비사항
 

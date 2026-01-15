@@ -10,6 +10,83 @@ description: AI 모델로부터 원하는 결과를 얻기 위한 효과적인 �
 
 프롬프트 엔지니어링은 대규모 언어 모델(LLM)로부터 원하는 결과를 얻기 위해 효과적인 입력(프롬프트)을 설계하고 최적화하는 기술입니다. 이는 AI 모델의 성능을 최대화하고 더 나은 결과를 얻기 위한 핵심 스킬입니다.
 
+### 프롬프트 엔지니어링의 본질
+
+좋은 질문이 정확한 답변을 이끌어내듯이, **전략적으로 작성된 프롬프트**는 GitHub Copilot이 더욱 관련성 높고 정확한 코드를 생성하도록 안내합니다. 이는 단순히 "무엇을 만들어줘"라고 요청하는 것을 넘어, AI가 정확히 어떤 결과물을 만들어야 하는지 명확하게 이해할 수 있도록 입력을 구성하는 것입니다.
+
+:::tip 비유로 이해하기
+프롬프트 엔지니어링은 **레스토랑에서 요리를 주문하는 것**과 비슷합니다:
+
+- ❌ "뭐 좀 만들어줘" → 예상치 못한 결과
+- ⚠️ "파스타 만들어줘" → 기본적인 결과
+- ✅ "토마토 베이스의 알리오올리오 파스타를, 마늘은 많이, 페페론치노는 적당히 넣어주세요. 면은 알덴테로 부탁드립니다." → 정확히 원하는 결과
+:::
+
+### 핵심 기법
+
+프롬프트 엔지니어링은 다음과 같은 기법들을 포함합니다:
+
+1. **역할 부여 (Role Prompting)**
+   ```
+   "당신은 시니어 백엔드 개발자입니다. REST API 설계 베스트 프랙티스를 따라..."
+   ```
+
+2. **상세한 컨텍스트 제공 (Contextual Detailing)**
+   ```
+   "이 프로젝트는 FastAPI를 사용하며, 이미 JWT 인증이 구현되어 있습니다. 
+   같은 패턴을 따라 새로운 엔드포인트를..."
+   ```
+
+3. **반복적 개선 (Iterative Refinement)**
+   ```
+   첫 번째 시도 → 결과 확인 → 프롬프트 조정 → 더 나은 결과
+   ```
+
+### 언제 프롬프트 엔지니어링이 필요한가?
+
+#### 🟢 일회성 작업 (간단한 프롬프트로 충분)
+```python
+# "리스트의 합계를 구하는 함수" ← 이 정도로 충분
+def sum_list(numbers):
+    return sum(numbers)
+```
+
+#### 🟡 프로덕션 코드 (프롬프트 엔지니어링 필요)
+
+프로덕션 환경에서는 다음이 중요합니다:
+
+- **신뢰성**: 매번 일관된 품질의 코드 생성
+- **예측 가능성**: 응답 형식과 구조를 예측할 수 있어야 함
+- **유지보수성**: 팀 전체가 이해하고 사용할 수 있는 코드
+
+**예시:**
+```python
+# ❌ 일회성 프롬프트
+# 사용자 데이터 저장
+
+# ✅ 프로덕션용 프롬프트 (프롬프트 엔지니어링 적용)
+# 다음 요구사항에 따라 사용자 데이터를 안전하게 저장하는 함수를 작성하세요:
+# 1. 입력 검증: 이메일 형식, 비밀번호 강도 확인
+# 2. 보안: bcrypt로 비밀번호 해싱 (salt rounds: 12)
+# 3. 에러 처리: 명확한 예외 메시지와 로깅
+# 4. 타입 힌트: 모든 파라미터와 리턴 타입 명시
+# 5. 문서화: docstring에 예시 포함
+# 6. 트랜잭션: 실패 시 롤백 보장
+```
+
+### 프롬프트 엔지니어링의 가치
+
+개발자가 프롬프트 엔지니어링을 깊이 이해하면:
+
+- ⚡ **생산성 향상**: 첫 시도에 원하는 코드 획득
+- 🎯 **정확도 증가**: 요구사항에 정확히 맞는 코드 생성
+- 🔄 **일관성 유지**: 프로젝트 전반에 걸쳐 일관된 코드 스타일
+- 🚀 **Copilot 활용 극대화**: 고급 AI 코딩 어시스턴트의 진정한 잠재력 발휘
+
+:::info 핵심 정리
+프롬프트 엔지니어링은 **AI와 대화하는 기술**입니다. 단순히 명령하는 것이 아니라, AI가 당신의 의도를 정확히 이해하고 최상의 결과를 생성할 수 있도록 전략적으로 소통하는 것입니다.
+:::
+
 ## 왜 중요한가?
 
 ### 1. 정확성 향상
@@ -252,7 +329,7 @@ def register_user(email: str, password: str, db: Session) -> User:
 - 모델의 사고 과정을 추적 가능
 - 신뢰성과 해석 가능성 향상
 
-### 4. Zero-shot CoT
+### 4. Zero-shot CoT ✨
 
 Zero-shot CoT는 단순히 "**단계별로 생각해봅시다**" 또는 "**단계별로 구현해주세요**"라는 문구를 추가하는 것만으로 모델이 체계적인 접근을 하도록 유도합니다.
 
@@ -314,7 +391,287 @@ def calculate_discount(price: float, discount_percent: float) -> float:
 
 ### 5. Self-Consistency (자기 일관성)
 
-여러 추론 경로를 생성하고 가장 일관성 있는 답을 선택하는 방법입니다. CoT와 결합하면 더욱 강력합니다.
+Self-Consistency는 같은 문제에 대해 여러 개의 추론 경로를 생성하고, 가장 일관성 있고 빈도가 높은 답변을 선택하는 방법입니다. CoT와 결합하면 더욱 강력합니다.
+
+#### 핵심 아이디어
+
+단일 답변에 의존하지 않고, 여러 번의 시도를 통해 **가장 신뢰할 수 있는 해결책**을 찾습니다.
+
+```mermaid
+graph LR
+    A[동일한 프롬프트] --> B[추론 경로 1]
+    A --> C[추론 경로 2]
+    A --> D[추론 경로 3]
+    
+    B --> E[솔루션 A]
+    C --> F[솔루션 A]
+    D --> G[솔루션 B]
+    
+    E --> H{다수결 투표}
+    F --> H
+    G --> H
+    
+    H --> I[최종 답: 솔루션 A<br/>2/3 일치]
+    
+    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style H fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style I fill:#c8e6c9,stroke:#1b5e20,stroke-width:2px
+```
+
+#### 실전 예시: 알고리즘 선택
+
+**문제:** "배열에서 중복된 요소를 효율적으로 제거하는 함수를 작성하세요"
+
+**프롬프트 (3번 실행):**
+```python
+# 배열에서 중복 요소를 제거하는 가장 효율적인 방법을 단계별로 설명하고 구현하세요.
+# 시간 복잡도와 공간 복잡도를 고려하세요.
+```
+
+**결과 1번 (Set 활용):**
+```python
+def remove_duplicates_v1(arr: list) -> list:
+    """
+    접근: Set 자료구조 활용
+    시간 복잡도: O(n)
+    공간 복잡도: O(n)
+    
+    Set은 중복을 자동으로 제거하므로 가장 간단하고 효율적입니다.
+    """
+    return list(set(arr))
+
+# 테스트
+# Input: [1, 2, 2, 3, 4, 4, 5]
+# Output: [1, 2, 3, 4, 5] (순서 보장 안 됨)
+```
+
+**결과 2번 (Dict.fromkeys() - 순서 유지):**
+```python
+def remove_duplicates_v2(arr: list) -> list:
+    """
+    접근: dict.fromkeys() 활용
+    시간 복잡도: O(n)
+    공간 복잡도: O(n)
+    
+    Python 3.7+에서 dict는 삽입 순서를 보장하므로
+    원래 순서를 유지하면서 중복을 제거할 수 있습니다.
+    """
+    return list(dict.fromkeys(arr))
+
+# 테스트
+# Input: [1, 2, 2, 3, 4, 4, 5]
+# Output: [1, 2, 3, 4, 5] (순서 유지)
+```
+
+**결과 3번 (Dict.fromkeys() - 동일):**
+```python
+def remove_duplicates_v3(arr: list) -> list:
+    """
+    접근: dict.fromkeys() 활용
+    시간 복잡도: O(n)
+    공간 복잡도: O(n)
+    
+    삽입 순서를 보장하는 dict를 사용하여
+    원본 배열의 순서를 유지합니다.
+    """
+    return list(dict.fromkeys(arr))
+
+# 테스트
+# Input: [1, 2, 2, 3, 4, 4, 5]
+# Output: [1, 2, 3, 4, 5] (순서 유지)
+```
+
+**Self-Consistency 분석:**
+
+| 솔루션 | 빈도 | 순서 유지 | 시간 복잡도 | 공간 복잡도 |
+|--------|------|-----------|-------------|-------------|
+| Set | 1/3 | ❌ | O(n) | O(n) |
+| dict.fromkeys() | 2/3 | ✅ | O(n) | O(n) |
+
+**최종 선택: dict.fromkeys()** 
+- 2/3 일치로 가장 일관성 있음
+- 순서 보장이라는 추가 이점
+- 동일한 성능 특성
+
+#### 복잡한 문제에서의 Self-Consistency
+
+**문제:** "재고 관리 시스템 설계"
+
+**프롬프트 (여러 번 실행):**
+```python
+# 다음 요구사항을 만족하는 재고 관리 시스템을 설계하세요:
+# 1. 재고 추가/감소
+# 2. 재고 부족 알림
+# 3. 동시성 처리
+# 4. 재고 히스토리 추적
+#
+# 단계별로 접근 방법을 설명하고 핵심 클래스를 구현하세요.
+```
+
+**결과 비교:**
+
+| 시도 | 설계 패턴 | 동시성 처리 | 데이터 저장 | 일관성 |
+|------|-----------|-------------|-------------|--------|
+| 1 | Observer 패턴 | threading.Lock | SQLite | ✅ |
+| 2 | Event-driven | asyncio.Lock | PostgreSQL | ✅ |
+| 3 | Observer 패턴 | threading.Lock | PostgreSQL | ✅ |
+
+**공통 패턴 추출:**
+- ✅ Observer 패턴 (2/3) → 재고 변경 알림에 적합
+- ✅ Lock 기반 동시성 (3/3) → 데이터 무결성 보장
+- ✅ 관계형 DB (2/3) → 트랜잭션 및 히스토리 추적
+
+**최종 구현 (일관성 기반):**
+```python
+from abc import ABC, abstractmethod
+from typing import List, Optional
+import threading
+from datetime import datetime
+from dataclasses import dataclass
+
+# Observer 패턴 구현
+class InventoryObserver(ABC):
+    @abstractmethod
+    def update(self, item_id: str, quantity: int, threshold: int) -> None:
+        """재고 변경 알림"""
+        pass
+
+class LowStockAlert(InventoryObserver):
+    def update(self, item_id: str, quantity: int, threshold: int) -> None:
+        if quantity < threshold:
+            print(f"⚠️ 재고 부족 알림: {item_id} - 남은 수량: {quantity}")
+
+@dataclass
+class InventoryHistory:
+    timestamp: datetime
+    item_id: str
+    action: str  # 'add' or 'remove'
+    quantity: int
+    remaining: int
+
+class InventoryManager:
+    """
+    Self-Consistency로 선택된 최적 설계:
+    - Observer 패턴으로 알림 처리
+    - threading.Lock으로 동시성 보장
+    - PostgreSQL로 영구 저장 (여기서는 메모리로 시뮬레이션)
+    """
+    
+    def __init__(self):
+        self._inventory: dict[str, int] = {}
+        self._thresholds: dict[str, int] = {}
+        self._observers: List[InventoryObserver] = []
+        self._history: List[InventoryHistory] = []
+        self._lock = threading.Lock()
+    
+    def attach_observer(self, observer: InventoryObserver) -> None:
+        """옵저버 등록"""
+        self._observers.append(observer)
+    
+    def add_item(self, item_id: str, quantity: int, threshold: int = 10) -> None:
+        """재고 추가 (동시성 안전)"""
+        with self._lock:
+            current = self._inventory.get(item_id, 0)
+            self._inventory[item_id] = current + quantity
+            self._thresholds[item_id] = threshold
+            
+            # 히스토리 기록
+            self._history.append(InventoryHistory(
+                timestamp=datetime.now(),
+                item_id=item_id,
+                action='add',
+                quantity=quantity,
+                remaining=self._inventory[item_id]
+            ))
+            
+            # 옵저버 알림
+            self._notify_observers(item_id)
+    
+    def remove_item(self, item_id: str, quantity: int) -> bool:
+        """재고 감소 (동시성 안전)"""
+        with self._lock:
+            current = self._inventory.get(item_id, 0)
+            
+            if current < quantity:
+                print(f"❌ 재고 부족: {item_id} (요청: {quantity}, 보유: {current})")
+                return False
+            
+            self._inventory[item_id] = current - quantity
+            
+            # 히스토리 기록
+            self._history.append(InventoryHistory(
+                timestamp=datetime.now(),
+                item_id=item_id,
+                action='remove',
+                quantity=quantity,
+                remaining=self._inventory[item_id]
+            ))
+            
+            # 옵저버 알림
+            self._notify_observers(item_id)
+            return True
+    
+    def _notify_observers(self, item_id: str) -> None:
+        """모든 옵저버에게 알림"""
+        quantity = self._inventory[item_id]
+        threshold = self._thresholds.get(item_id, 0)
+        
+        for observer in self._observers:
+            observer.update(item_id, quantity, threshold)
+    
+    def get_history(self, item_id: str) -> List[InventoryHistory]:
+        """재고 히스토리 조회"""
+        return [h for h in self._history if h.item_id == item_id]
+
+# 사용 예시
+manager = InventoryManager()
+alert = LowStockAlert()
+manager.attach_observer(alert)
+
+manager.add_item("ITEM-001", 50, threshold=10)
+manager.remove_item("ITEM-001", 45)  # ⚠️ 재고 부족 알림 발생
+```
+
+#### Self-Consistency의 장점
+
+**1. 신뢰성 향상**
+- 단일 시도의 오류나 편향 감소
+- 여러 추론 경로의 합의로 더 안정적인 결과
+
+**2. 최적 솔루션 발견**
+- 다양한 접근 방법 탐색
+- 공통 패턴에서 베스트 프랙티스 추출
+
+**3. 설계 검증**
+- 일관성 있는 패턴 = 좋은 설계일 가능성 높음
+- 불일치 = 추가 고려사항 발견
+
+#### 실무 적용 팁
+
+```text
+1. 중요한 의사결정이 필요한 경우:
+   - 아키텍처 선택
+   - 알고리즘 설계
+   - 디자인 패턴 적용
+
+2. 프롬프트 작성:
+   - 동일한 프롬프트 3-5번 실행
+   - 온도(temperature) 설정 조정으로 다양성 확보
+
+3. 결과 분석:
+   - 공통 요소 추출
+   - 빈도 기반 선택
+   - 장단점 비교표 작성
+
+4. 최종 결정:
+   - 다수결 + 품질 검증
+   - 일관되지 않은 부분은 추가 조사
+```
+
+:::warning 주의사항
+- Self-Consistency는 시간과 비용(API 호출)이 증가합니다. **중요한 의사결정**에만 사용하고, 간단한 작업에는 일반 프롬프팅으로 충분합니다.
+- 일부 모델(Claude Sonnet 등)은 Self-Consistency를 기본적으로 지원하므로, 특정 시점에 자동으로 Self-Consistency 가 수행됩니다.
+:::
 
 ### 6. Generated Knowledge Prompting (지식 생성 프롬프팅)
 
@@ -613,3 +970,7 @@ def test_user_update():
 5. **반복적 개선** - 결과를 보고 프롬프트 조정
 
 프롬프트 엔지니어링은 실습을 통해 향상되는 스킬입니다. 다양한 기법을 실험하고 자신만의 효과적인 패턴을 발견하세요!
+
+## 다음 단계
+
+프롬프트 엔지니어링을 익혔다면 이제 [엔지니어링 프랙티스](./11-copilot-engineering-practices.md)에서 실무에서의 체계적인 활용 방법을 학습하세요.

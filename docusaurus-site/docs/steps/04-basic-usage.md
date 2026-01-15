@@ -34,3 +34,7 @@ def add(a, b):
 1. 새 Python 파일 생성
 2. 주석으로 함수 설명 작성
 3. Copilot의 제안 확인하기
+
+## 다음 단계
+
+Copilot의 기본 사용법을 익혔다면 이제 [제한사항과 주의사항](./05-limitations.md)에서 Copilot 사용 시 알아야 할 중요한 내용을 확인하세요.

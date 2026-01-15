@@ -50,3 +50,7 @@ description: GitHub Copilot의 주요 기능(Features)과 활용 팁, 보안 및
 3. 생성된 코드는 코드리뷰와 테스트로 검증합니다.
 4. 민감한 정보가 포함되지 않았는지 스캔 및 검토합니다.
 
+## 다음 단계
+
+GitHub Copilot의 주요 기능을 이해했다면 이제 [AI 모델](./03-ai-models.md)에서 Copilot이 사용하는 AI 모델과 선택 방법을 학습하세요.
+

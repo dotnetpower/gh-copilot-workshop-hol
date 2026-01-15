@@ -226,3 +226,7 @@ public class UserService
 - 📚 [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
 - 🔒 [GitHub Copilot Trust Center](https://resources.github.com/copilot-trust-center/)
 
+## 다음 단계
+
+Copilot의 영향력을 이해했다면 이제 [고급 기능](./08-advanced-features.md)에서 슬래시 명령어와 고급 활용법을 학습하세요.
+

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 11
-title: 커스텀 설정
+title: 커스텀 지침 설정 ✨
 description: GitHub Copilot Instructions를 통한 프로젝트별 커스텀 설정 및 최적화 방법
 ---
 
@@ -205,6 +205,11 @@ applyTo: '**/*.cs'
 
 `.github/templates/python-view.md`:
 ```markdown
+---
+description: 'FastAPI View 생성 시 사용하는 표준 템플릿 - RESTful API 패턴 준수'
+applyTo: 'src/views/**/*.py'
+---
+
 # Python View 템플릿
 
 모든 API View는 다음 구조를 따릅니다:
@@ -252,6 +257,11 @@ async def [view_name](
 
 `.github/templates/api-endpoint.md`:
 ```markdown
+---
+description: 'FastAPI 엔드포인트 생성 시 사용하는 표준 템플릿 - 유효성 검증 및 에러 처리 포함'
+applyTo: 'src/api/**/*.py'
+---
+
 # API Endpoint 템플릿
 
 ```python
@@ -433,7 +443,7 @@ testpaths = ["tests"]
 
 ## 다음 단계
 
-다음 섹션에서는 GitHub Copilot Spaces를 활용한 고급 협업 방법을 학습합니다.
+다음 섹션에서는 [컨텍스트 엔지니어링](./11-context-engineering.md)을 통해 AI 에이전트에게 프로젝트 정보를 효과적으로 제공하는 방법을 학습합니다.
 
 ---
 

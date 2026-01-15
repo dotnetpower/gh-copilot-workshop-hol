@@ -138,3 +138,7 @@ def test_calculate_total():
 ### 추가 참고 사항
 
 GitHub Copilot의 학습 데이터 및 프라이버시 정책에 대한 더 자세한 내용은 공식 문서를 참고하시기 바랍니다.
+
+## 다음 단계
+
+Copilot의 제한사항을 이해했다면 이제 [Copilot 모드 활용하기](./06-copilot-modes.md)에서 Ask, Edit, Agent, Plan 모드를 효과적으로 사용하는 방법을 학습하세요.

@@ -21,7 +21,7 @@
     "github.copilot.chat.localeOverride": "ko",
     "github.copilot.chat.generateCommitMessage.enabled": true,
     "github.copilot.chat.commitMessageGeneration.instructions": [
-        {"text":"한국어로 간략하게 수정된 내용 또는 프롬프트 중심으로 핵심만 두줄 이내로 생성해, feat: 같은건 넣지마"}
+        {"text":"한국어로 작성. 변경된 파일 목록과 각 파일의 주요 수정 내용을 구체적으로 나열. 문서 파일(.md)은 '어떤 내용이 추가/수정/삭제되었는지', 코드 파일은 '어떤 기능이 구현/수정되었는지' 명확히 설명. 파일 경로를 포함하여 작성."}
     ],
 
 

@@ -376,7 +376,7 @@ PR의 변경사항을 분석하고
 
 ## 다음 단계
 
-축하합니다! GitHub Copilot의 모든 주요 기능을 학습했습니다.
+축하합니다! GitHub Copilot의 모든 주요 기능을 학습했습니다. 이제 [워크숍 마무리](./workshop-conclusion.md)에서 배운 내용을 정리하고 실무 적용을 위한 Best Practices를 확인하세요.
 
 **추가 학습 자료:**
 - [GitHub Copilot 블로그](https://github.blog/tag/github-copilot/)

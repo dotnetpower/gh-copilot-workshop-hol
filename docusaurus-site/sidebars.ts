@@ -50,17 +50,12 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '🎯 프롬프트 엔지니어링',
-      items: [
-        'steps/understanding-prompt',
-      ],
-    },
-    {
-      type: 'category',
       label: '⚙️ 엔지니어링 프랙티스',
       items: [
+        'steps/understanding-prompt',
         'steps/copilot-engineering-practices',
         'steps/custom-configuration',
+        'steps/context-engineering',
       ],
     },
     {
