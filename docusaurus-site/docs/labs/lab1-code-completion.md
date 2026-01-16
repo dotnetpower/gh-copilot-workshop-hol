@@ -12,6 +12,110 @@ description: GitHub Copilot의 기본 코드 자동완성 기능과 인라인 �
 - 키보드 단축키를 통한 효율적인 코딩 방법 습득
 :::
 
+## 📋 사전 준비 (Prerequisites)
+
+실습을 시작하기 전에 다음 환경을 구성해야 합니다.
+
+### 1. Python 환경 설정
+
+Python 3.8 이상이 필요합니다. 다음 명령으로 설치 여부를 확인하세요:
+
+```bash
+python --version
+# 또는
+python3 --version
+```
+
+:::info 💡 Python 설치
+Python이 설치되어 있지 않다면 [공식 웹사이트](https://www.python.org/downloads/)에서 다운로드하여 설치하세요.
+- Windows: 설치 시 "Add Python to PATH" 옵션을 반드시 체크하세요
+- macOS: Homebrew 사용 권장 (`brew install python3`)
+- Linux: 패키지 관리자 사용 (`sudo apt install python3` 또는 `sudo yum install python3`)
+:::
+
+### 2. 가상환경 생성 (권장)
+
+프로젝트별로 독립된 Python 환경을 사용하는 것이 좋습니다:
+
+```bash
+# 가상환경 생성
+python -m venv venv
+
+# 가상환경 활성화
+# Linux/macOS:
+source venv/bin/activate
+
+# Windows (Command Prompt):
+venv\Scripts\activate
+
+# Windows (PowerShell):
+venv\Scripts\Activate.ps1
+```
+
+:::tip 가상환경 활성화 확인
+가상환경이 활성화되면 터미널 프롬프트 앞에 `(venv)`가 표시됩니다.
+:::
+
+### 3. 필수 패키지 설치
+
+실습에 필요한 Python 패키지들을 설치합니다:
+
+```bash
+pip install requests aiofiles pytest
+```
+
+:::note 패키지 설명
+- **requests**: HTTP 요청을 위한 라이브러리 (API 호출 실습용)
+- **aiofiles**: 비동기 파일 I/O 작업을 위한 라이브러리
+- **pytest**: Python 테스트 프레임워크
+:::
+
+### 4. 작업 디렉토리 구성
+
+실습을 진행할 디렉토리를 생성합니다:
+
+```bash
+# 프로젝트 루트에서
+mkdir -p playground
+cd playground
+```
+
+### 5. GitHub Copilot 활성화
+
+VS Code에서 다음을 확인하세요:
+
+1. **GitHub Copilot 확장 설치**
+   - VS Code 확장 마켓플레이스에서 "GitHub Copilot" 검색 및 설치
+   - 재시작 후 자동으로 활성화됨
+
+2. **GitHub 계정 로그인**
+   - VS Code 우측 하단의 계정 아이콘 클릭
+   - "Sign in to use GitHub Copilot" 선택
+   - GitHub 계정으로 로그인
+
+3. **Copilot 상태 확인**
+   - VS Code 우측 하단에 Copilot 아이콘 확인
+   - 아이콘이 활성화(파란색)되어 있어야 함
+
+:::warning ⚠️ Copilot 구독 필요
+GitHub Copilot을 사용하려면 유료 구독 또는 무료 평가판이 필요합니다. [GitHub Copilot 구독 페이지](https://github.com/features/copilot)에서 신청하세요.
+:::
+
+### 6. 실습 환경 검증
+
+모든 설정이 완료되었는지 확인합니다:
+
+```bash
+# Python 버전 확인
+python --version
+
+# 설치된 패키지 확인
+pip list | grep -E "requests|aiofiles|pytest"
+
+# 작업 디렉토리 확인
+pwd  # playground 디렉토리에 있어야 함
+```
+
 ## 🛠️ 실습 내용
 
 ### 1.1 기본 설정
