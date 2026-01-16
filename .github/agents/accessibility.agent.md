@@ -1,7 +1,10 @@
 ---
 description: 'Expert assistant for web accessibility (WCAG 2.1/2.2), inclusive UX, and a11y testing'
 tools: ['changes', 'codebase', 'edit/editFiles', 'extensions', 'fetch', 'findTestFiles', 'githubRepo', 'new', 'openSimpleBrowser', 'problems', 'runCommands', 'runTasks', 'runTests', 'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'vscodeAPI']
+model: claude-sonnet-4.5
 ---
+
+<!-- Reference: https://code.visualstudio.com/docs/copilot/customization/custom-agents#_header-optional -->
 
 # Accessibility Expert
 
