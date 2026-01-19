@@ -34,8 +34,8 @@ if [ -f "$ARCHIVE_NAME" ]; then
 fi
 
 # 압축 시작
-echo "압축 중... (.sh 파일 제외)"
-7z a -p"$PASSWORD" -mhe=on "$ARCHIVE_NAME" * -xr!*.sh -xr!*.7z -xr!*.backup.*
+echo "압축 중... (.sh 파일, __pycache__ 제외, .env 포함)"
+7z a -p"$PASSWORD" -mhe=on "$ARCHIVE_NAME" * .env -xr!*.sh -xr!*.7z -xr!*.backup.* -xr!__pycache__ -xr!*.pyc
 
 if [ $? -eq 0 ]; then
     echo "✅ 압축 완료: $ARCHIVE_NAME"
