@@ -85,6 +85,7 @@ const sidebars: SidebarsConfig = {
         'labs/lab4-advanced',
         'labs/lab5-docusaurus-blog',
         'labs/lab6-autogen-group-chat',
+        'labs/lab7-flight-delay-prediction',
       ],
     },
     {
